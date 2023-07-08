@@ -4,8 +4,8 @@ from .models import ContentType, Heading, PostIdea, Formats, Done, SocialNetwork
 
 
 class PostIdeaAdmin(admin.ModelAdmin):
-    list_display = ('theme', 'short_description', 'format', 'publish_date', 'is_done')
-    list_filter = ['publish_date', 'format', 'is_done']
+    list_display = ('author', 'theme', 'short_description', 'format', 'publish_date', 'is_done')
+    list_filter = ['author', 'publish_date', 'format', 'is_done']
 
 
 admin.site.register(PostIdea, PostIdeaAdmin)

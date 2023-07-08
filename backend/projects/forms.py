@@ -46,7 +46,10 @@ class PostIdeaForm(forms.ModelForm):
 
     class Meta:
         model = PostIdea
-        fields = '__all__'
+        fields = [
+            'publish_date', 'theme', 'hashtags', 'geolocation', 'short_description', 'full_description', 'references', 'inventory', 'to_do_list',
+            'notes','heading', 'content_type', 'social_network', 'format', 'is_done',
+        ]
 
         widgets = {
             'publish_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'placeholder': 'Дата публикации'}),

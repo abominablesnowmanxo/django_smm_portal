@@ -1,17 +1,23 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from utils.my_calendar import MyCalendar
 from .forms import PostIdeaForm
 from .models import PostIdea
+
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class HomePageView(TemplateView):
     template_name = 'projects/home.html'
 
 
-class IdeasListView(ListView):
+class IdeasListView(LoginRequiredMixin, ListView):
     model = PostIdea
     template_name = 'projects/all_ideas.html'
     context_object_name = 'ideas'
@@ -19,14 +25,19 @@ class IdeasListView(ListView):
     ordering = ('-publish_date')
 
 
-class IdeaCreateView(CreateView):
+class IdeaCreateView(LoginRequiredMixin, CreateView):
     model = PostIdea
     form_class = PostIdeaForm
     template_name = 'projects/create_idea.html'
     success_url = reverse_lazy('projects:all_ideas')
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.save()
+        return super().form_valid(form)
 
-class PostCreateView(CreateView):
+
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = PostIdea
     form_class = PostIdeaForm
     template_name = 'projects/create_post.html'

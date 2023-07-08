@@ -1,6 +1,7 @@
 from django.db import models
 from django.forms import ModelForm
 from django.urls import reverse
+from accounts.models import CustomUser
 
 
 class Formats(models.Model):
@@ -69,6 +70,7 @@ class PostIdea(models.Model):
     inventory = models.TextField(verbose_name='Инвентарь', null=True, blank=True)
     to_do_list = models.TextField(verbose_name='To Do List', null=True, blank=True)
     notes = models.TextField(verbose_name='Заметки', null=True, blank=True)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='postideas')
     heading = models.ForeignKey(Heading, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Рубрика')
     content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Тип контента')
     social_network = models.ForeignKey(SocialNetwork, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Площадка')
