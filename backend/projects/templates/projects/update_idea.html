@@ -1,0 +1,49 @@
+{% extends 'projects/base.html' %}
+{% load static %}
+
+{% block title %}
+Редактировать идею
+{% endblock %}
+
+{% block content %}
+<div class="container container-post mb-3">
+  <h1 class="text-center">Редактировать идею</h1>
+  <hr>
+  <div class="shadow mb-5 bg-body rounded">
+    <div class="card text-center">
+      <div class="card-body card-idea">
+        <div class="form-group">
+          <form action="" method="post">
+            <div class="row g-2">
+              {% csrf_token %}
+              <div class="col-md-12 mb-3 form-floating required">
+                {{ form.theme }}
+                <label class="control-label" for="theme">{{form.theme.label}}</label>
+              </div>
+              <div class="col-md-12 mb-3 form-floating required">
+                {{ form.short_description }}
+                <label class="control-label"
+                  for="id_{{form.short_description.label}}">{{form.short_description.label}}</label>
+              </div>
+              <div class="col-md-4 mb-3 form-floating required">
+                {{ form.format }}
+                <label class="control-label" for="id_{{form.format.label}}">{{form.format.label}}</label>
+              </div>
+              <div class="col-md-4 mb-3 form-floating required">
+                {{ form.publish_date }}
+                <label class="control-label" for="id_{{form.publish_date.label}}">{{form.publish_date.label}}</label>
+              </div>
+              <div class="col-md-4 mb-3 form-floating required">
+                {{ form.is_done }}
+                <label class="control-label" for="id_{{form.is_done.label}}">{{form.is_done.label}}</label>
+              </div>
+              <div class="d-grid gap-2 col-6 mx-auto">
+                <button class="btn btn-primary btn-lg">Сохранить</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

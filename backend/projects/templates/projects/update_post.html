@@ -1,0 +1,88 @@
+{% extends 'projects/base.html' %}
+{% load static %}
+
+{% block title %}
+Планировщик публикаций
+{% endblock %}
+
+{% block content %}
+<div class="container container-post mb-3">
+  <h1 class="text-center">Планировщик публикации</h1>
+  <hr>
+  <div class="card text-center">
+    <div class="card-body card-post">
+      <div class="form-group">
+        <form action="" method="post">
+          <div class="row">
+            {% csrf_token %}
+            <div class="col-md-12 mb-3 required">
+              <label class="control-label" for="id_{{form.theme.label}}">{{form.theme.label}}</label>
+              {{ form.theme }}
+            </div>
+            <div class="col-md-6 mb-3 required">
+              <label class="control-label" for="id_{{form.format.label}}">{{form.format.label}}</label>
+              {{ form.format }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="id_{{form.social_network.label}}">{{form.social_network.label}}</label>
+              {{ form.social_network }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="id_{{form.heading.label}}">{{form.heading.label}}</label>
+              {{ form.heading }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="id_{{form.content_type.label}}">{{form.content_type.label}}</label>
+              {{ form.content_type }}
+            </div>
+
+            <div class="col-md-12 mb-3">
+              <label for="id_{{form.short_description.label}}">{{form.short_description.label}}</label>
+              {{ form.short_description }}
+            </div>
+            <!-- <div class="col-md-12 mb-3">
+                <label for="id_{{form.full_description.label}}">{{form.full_description.label}}</label>
+                {{ form.full_description }}
+              </div> -->
+            <div class="col-md-6 mb-3">
+              <label for="id_{{form.hashtags.label}}">{{form.hashtags.label}}</label>
+              {{ form.hashtags }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="id_{{form.geolocation.label}}">{{form.geolocation.label}}</label>
+              {{ form.geolocation }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="id_{{form.references.label}}">{{form.references.label}}</label>
+              {{ form.references }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="id_{{form.inventory.label}}">{{form.inventory.label}}</label>
+              {{ form.inventory }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="id_{{form.to_do_list.label}}">{{form.to_do_list.label}}</label>
+              {{ form.to_do_list }}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="id_{{form.notes.label}}">{{form.notes.label}}</label>
+              {{ form.notes }}
+            </div>
+            <div class="col-md-6 mb-3 required">
+              <label class="control-label" for="id_{{form.publish_date.label}}">{{form.publish_date.label}}</label>
+              {{ form.publish_date }}
+            </div>
+            <div class="col-md-6 mb-3 required">
+              <label class="control-label" for="id_{{form.is_done.label}}">{{form.is_done.label}}</label>
+              {{ form.is_done }}
+            </div>
+            <div class="d-grid gap-2 col-6 mx-auto my-3">
+              <button class="btn btn-primary btn-lg">Сохранить</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+</div>
+{% endblock %}
