@@ -6,6 +6,7 @@ Info page
 {% endblock%}
 
 {% block content %}
+{% if user.is_authenticated %}
 <div class="container mt-5 mb-5">
   <div class="container container-post">
     <div>
@@ -108,4 +109,7 @@ Info page
     </div>
   </div>
 </div>
+{% else %}
+<p>You are not logged in</p>
+<a href="{% url 'login' %}">Log In</a> {% endif %}
 {% endblock %}
