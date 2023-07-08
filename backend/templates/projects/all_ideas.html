@@ -1,4 +1,4 @@
-{% extends 'projects/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}
@@ -52,10 +52,10 @@
             <p class="card-text">Дата: {{ idea.publish_date }}</p>
             <p class="card-text">Готово: {{ idea.is_done }}</p>
             <div class="d-grid gap-2 d-md-block">
-              <a class="btn btn-outline-light btn-sm" href="{% url 'landing:update-idea' idea.pk %}">Редактировать</a>
-              <a class="btn btn-outline-light btn-sm" href="{% url 'landing:update-post' idea.pk %}">В
+              <a class="btn btn-outline-light btn-sm" href="{% url 'projects:update-idea' idea.pk %}">Редактировать</a>
+              <a class="btn btn-outline-light btn-sm" href="{% url 'projects:update-post' idea.pk %}">В
                 публикацию</a>
-              <a class="btn btn-outline-danger btn-sm" href="{% url 'landing:delete' idea.pk %}">Удалить</a>
+              <a class="btn btn-outline-danger btn-sm" href="{% url 'projects:delete' idea.pk %}">Удалить</a>
             </div>
           </div>
         </div>

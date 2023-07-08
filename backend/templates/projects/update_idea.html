@@ -1,13 +1,13 @@
-{% extends 'projects/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}
-Новая идея
+Редактировать идею
 {% endblock %}
 
 {% block content %}
 <div class="container container-post mb-3">
-  <h1 class="text-center">Новая идея</h1>
+  <h1 class="text-center">Редактировать идею</h1>
   <hr>
   <div class="shadow mb-5 bg-body rounded">
     <div class="card text-center">
@@ -18,7 +18,7 @@
               {% csrf_token %}
               <div class="col-md-12 mb-3 form-floating required">
                 {{ form.theme }}
-                <label class="control-label" for="id_{{form.theme.label}}">{{form.theme.label}}</label>
+                <label class="control-label" for="theme">{{form.theme.label}}</label>
               </div>
               <div class="col-md-12 mb-3 form-floating required">
                 {{ form.short_description }}
@@ -38,7 +38,7 @@
                 <label class="control-label" for="id_{{form.is_done.label}}">{{form.is_done.label}}</label>
               </div>
               <div class="d-grid gap-2 col-6 mx-auto">
-                <button class="btn btn-primary btn-lg">Добавить</button>
+                <button class="btn btn-primary btn-lg">Сохранить</button>
               </div>
           </form>
         </div>

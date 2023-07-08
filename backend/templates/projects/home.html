@@ -1,4 +1,4 @@
-{% extends 'projects/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}
@@ -111,5 +111,6 @@ Info page
 </div>
 {% else %}
 <p>You are not logged in</p>
-<a href="{% url 'login' %}">Log In</a> {% endif %}
+<a href="{% url 'accounts:login' %}">Log In</a>
+{% endif %}
 {% endblock %}

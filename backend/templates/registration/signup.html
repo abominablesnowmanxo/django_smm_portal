@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Log In{% endblock title %}
+{% block content %}
+<div class="container container-post mb-3">
+    <h1 class="text-center">Sign Up</h1>
+    <hr>
+    <div class="shadow mb-5 bg-body rounded">
+      <div class="card text-center">
+        <div class="card-body card-idea">
+          <div class="form-group">
+            <form action="" method="post">
+              <div class="row g-2">
+                {% csrf_token %}
+                <div class="col-md-12 mb-3 form-floating required">
+                  {{ form.username }}
+                  <label class="control-label" for="id_{{form.username.label}}">{{form.username.label}}</label>
+                </div>
+                <div class="col-md-12 mb-3 form-floating required">
+                  {{ form.email }}
+                  <label class="control-label" for="id_{{form.email.label}}">{{form.email.label}}</label>
+                </div>
+                <div class="col-md-12 mb-3 form-floating required">
+                  {{ form.password1 }}
+                  <label class="control-label"
+                    for="id_{{form.password}}">{{ form.password1.label }}</label>
+                </div>
+                <div class="col-md-12 mb-3 form-floating required">
+                  {{ form.password2 }}
+                  <label class="control-label"
+                    for="id_{{form.password}}">{{ form.password2.label }}</label>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                  <button class="btn btn-primary btn-lg">Добавить</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
