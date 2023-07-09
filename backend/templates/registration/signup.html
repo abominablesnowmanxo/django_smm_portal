@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}Log In{% endblock title %}
 {% block content %}
-<div class="container container-post mb-3">
+<div class="container container-account mb-3">
     <h1 class="text-center">Sign Up</h1>
     <hr>
     <div class="shadow mb-5 bg-body rounded">
       <div class="card text-center">
-        <div class="card-body card-idea">
+        <div class="card-body card-account">
           <div class="form-group">
             <form action="" method="post">
               <div class="row g-2">
@@ -30,7 +30,7 @@
                     for="id_{{form.password}}">{{ form.password2.label }}</label>
                 </div>
                 <div class="d-grid gap-2 col-6 mx-auto">
-                  <button class="btn btn-primary btn-lg">Добавить</button>
+                  <button class="btn btn-secondary btn-lg">Зарегистрироваться</button>
                 </div>
             </form>
           </div>

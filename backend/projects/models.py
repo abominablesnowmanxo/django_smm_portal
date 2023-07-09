@@ -59,6 +59,17 @@ class ContentType(models.Model):
         return self.content_type
 
 
+class Project(models.Model):
+    name = models.CharField(max_length=128)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='project', verbose_name='Автор')
+
+    class Meta:
+        verbose_name_plural = 'Проекты'
+
+    def __str__(self):
+        return self.name
+
+
 class PostIdea(models.Model):
     theme = models.CharField(max_length=64, verbose_name='Тема')
     short_description = models.TextField(verbose_name='Краткое описание', null=True)
@@ -70,7 +81,8 @@ class PostIdea(models.Model):
     inventory = models.TextField(verbose_name='Инвентарь', null=True, blank=True)
     to_do_list = models.TextField(verbose_name='To Do List', null=True, blank=True)
     notes = models.TextField(verbose_name='Заметки', null=True, blank=True)
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='postideas')
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='postideas', verbose_name='Автор')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True, related_name='postideas', verbose_name='Проект')
     heading = models.ForeignKey(Heading, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Рубрика')
     content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Тип контента')
     social_network = models.ForeignKey(SocialNetwork, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Площадка')

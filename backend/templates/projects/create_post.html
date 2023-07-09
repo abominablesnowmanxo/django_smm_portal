@@ -16,9 +16,13 @@
           <form action="" method="post">
             <div class="row">
               {% csrf_token %}
-              <div class="col-md-12 mb-3 required">
+              <div class="col-md-6 mb-3 required">
                 <label class="control-label" for="id_{{form.theme.label}}">{{form.theme.label}}</label>
                 {{ form.theme }}
+              </div>
+              <div class="col-md-6 mb-3 required">
+                <label class="control-label" for="id_{{form.project.label}}">{{form.project.label}}</label>
+                {{ form.project }}
               </div>
               <div class="col-md-6 mb-3 required">
                 <label class="control-label" for="id_{{form.format.label}}">{{form.format.label}}</label>

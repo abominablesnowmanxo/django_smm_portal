@@ -3,12 +3,12 @@
 {% block title %}Log In{% endblock title %}
 
 {% block content %}
-<div class="container container-post mb-3">
+<div class="container container-account mb-3">
     <h1 class="text-center">Log In</h1>
     <hr>
     <div class="shadow mb-5 bg-body rounded">
       <div class="card text-center">
-        <div class="card-body card-idea">
+        <div class="card-body card-account">
           <div class="form-group">
             <form action="" method="post">
               <div class="row g-2">
@@ -23,9 +23,14 @@
                     for="id_{{form.password1}}">{{ form.password.label }}</label>
                 </div>
                 <div class="d-grid gap-2 col-6 mx-auto">
-                  <button class="btn btn-primary btn-lg">Добавить</button>
+                  <button class="btn btn-secondary btn-lg">Войти</button>
                 </div>
             </form>
+            <p><a href="#" id="forgot-password">Забыли Пароль?</a></p>
+            <hr class="my-1">
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <a href="{% url 'accounts:signup' %}" class="btn btn-secondary btn-lg mt-3 mb-1">Зарегистрироваться</a>
+            </div>
           </div>
         </div>
       </div>

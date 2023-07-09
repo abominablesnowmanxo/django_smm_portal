@@ -43,16 +43,21 @@
             <span>{{date.day}}</span>
           </div>
         </div>
-        {% for event in events %}
-        {% if request.user == event.author %}
-        {% if event.publish_date == date %}
-        <a href="{% url 'projects:update-post' event.pk %}">
-          <div class="event">
-            <div class="event-desc">
-              {{ event.theme }}
+        {% for post in posts %}
+        {% if request.user == post.author %}
+        {% if post.publish_date == date %}
+        <a href="{% url 'projects:update-post' post.pk %}">
+          <div class="post">
+            <div class="post-desc">
+              {{ post.theme }}
             </div>
-            <div class="event-time">
-              {{ event.format}}
+            <div class="post-time">
+              <div>
+                {{ post.format }}
+              </div>
+              <div class="project">
+                <span class="project-text">{{ post.project }}</span>
+              </div>
             </div>
           </div>
         </a>
@@ -61,7 +66,6 @@
         {% endfor %}
       </div>
       {% endfor %}
-
     </div>
   </div>
 </div>

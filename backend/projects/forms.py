@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import ContentType, Done, Heading, PostIdea, Formats, SocialNetwork
+from .models import ContentType, Done, Heading, Project, PostIdea, Formats, SocialNetwork
 
 
 class PostIdeaForm(forms.ModelForm):
@@ -43,12 +43,21 @@ class PostIdeaForm(forms.ModelForm):
     )
 
 
+    project = forms.ModelChoiceField(
+        required=False,
+        label='Проект',
+        queryset=Project.objects,
+        empty_label='Выберите проект',
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
+
 
     class Meta:
         model = PostIdea
         fields = [
             'publish_date', 'theme', 'hashtags', 'geolocation', 'short_description', 'full_description', 'references', 'inventory', 'to_do_list',
-            'notes','heading', 'content_type', 'social_network', 'format', 'is_done',
+            'notes','heading', 'content_type', 'social_network', 'format', 'is_done', 'project'
         ]
 
         widgets = {
