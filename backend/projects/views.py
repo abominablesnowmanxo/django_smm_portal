@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
@@ -6,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 
 from utils.my_calendar import MyCalendar
 from .forms import PostIdeaForm
-from .models import PostIdea
+from .models import PostIdea, Project
 
 
 class HomePageView(LoginRequiredMixin, TemplateView):
@@ -24,6 +25,11 @@ class IdeasListView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(author=self.request.user)
         return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['projects'] = Project.objects.filter(author=self.request.user)
+        return context
 
 
 class IdeaCreateView(LoginRequiredMixin, CreateView):
@@ -92,6 +98,7 @@ def month_calendar(request):
     next_date = my_calendar.next_date
     month_name = my_calendar.month_name
     month_dates = my_calendar.month_dates
+    today = datetime.now().date
     posts = PostIdea.objects.filter(publish_date__in=month_dates).all()
 
     return render(request, 'projects/month_calendar.html', {
@@ -99,6 +106,7 @@ def month_calendar(request):
         'month_name': month_name,
         'prev_date': prev_date,
         'next_date': next_date,
+        'today': today,
         'month_dates': month_dates,
         'posts': posts
     })
@@ -111,6 +119,7 @@ def month_calendar_change(request, year, month):
     next_date = my_calendar.next_date
     month_name = my_calendar.month_name
     month_dates = my_calendar.month_dates
+    today = datetime.now().date
     posts = PostIdea.objects.filter(publish_date__in=month_dates).all()
 
     return render(request, 'projects/month_calendar.html', {
@@ -118,6 +127,7 @@ def month_calendar_change(request, year, month):
         'month_name': month_name,
         'prev_date': prev_date,
         'next_date': next_date,
+        'today': today,
         'month_dates': month_dates,
         'posts': posts
     })

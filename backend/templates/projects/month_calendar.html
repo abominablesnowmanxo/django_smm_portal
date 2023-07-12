@@ -34,7 +34,7 @@
       <div class="weekday">Sunday</div>
 
       {% for date in month_dates %}
-      <div class="col-sm cell">
+      <div class="col-sm {% if date == today %}cell-today{% else %}cell{% endif %}">
         <div class="d-flex justify-content-between day">
           <div>
             <a href="{% url 'projects:create-idea' %}" class="add">&#10010;</a>
@@ -48,8 +48,13 @@
         {% if post.publish_date == date %}
         <a href="{% url 'projects:update-post' post.pk %}">
           <div class="post">
-            <div class="post-desc">
-              {{ post.theme }}
+            <div class="post-time">
+              <div class="post-desc">
+                {{ post.theme }}
+              </div>
+              <div class="post-desc">
+                <span class="{% if post.is_done.id == 1 %}dot-done{% else %}dot{% endif %}"></span>
+              </div>
             </div>
             <div class="post-time">
               <div>

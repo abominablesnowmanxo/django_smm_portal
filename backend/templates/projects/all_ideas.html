@@ -35,35 +35,66 @@
       {% endif %}
     </ul>
   </nav>
-  <!-- **** PAGINATTION ENDS ***** -->
+  <!-- ***** PAGINATTION ENDS ***** -->
 
   <!-- ***** MAIN CONTENT START ***** -->
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    {% for idea in ideas %}
-    {% if request.user == idea.author %}
-    <div class="col">
-      <div class="shadow bg-body rounded">
-        <div class="card h-100">
-          <div class="card-header">
-            <strong>Тема: {{ idea.theme }}</strong>
-          </div>
-          <div class="card-body card-idea">
-            <p class="card-text">Описание: {{ idea.short_description }}</p>
-            <p class="card-text">Формат: {{ idea.format }}</p>
-            <p class="card-text">Дата: {{ idea.publish_date }}</p>
-            <p class="card-text">Готово: {{ idea.is_done }}</p>
-            <div class="d-grid gap-2 d-md-block">
-              <a class="btn btn-outline-light btn-sm" href="{% url 'projects:update-idea' idea.pk %}">Редактировать</a>
-              <a class="btn btn-outline-light btn-sm" href="{% url 'projects:update-post' idea.pk %}">В
-                публикацию</a>
-              <a class="btn btn-outline-danger btn-sm" href="{% url 'projects:delete' idea.pk %}">Удалить</a>
+  <div class="container-ideas">
+    <div>
+      <strong>Filters</strong>
+      <a href="{% url 'projects:all_ideas' %}">Clear</a>
+      <div class="me-4">
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Проекты
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample">
+              {% for project in projects %}
+              <div class="accordion-body">
+                <a href="{% url 'projects:all_ideas' %}?q={{ project.name }}">{{ project.name }}</a>
+              </div>
+              {% endfor %}
             </div>
           </div>
         </div>
       </div>
     </div>
-    {% endif %}
-    {% endfor %}
+
+    <div>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for idea in ideas %}
+        {% if request.user == idea.author %}
+        <div class="col">
+          <div class="shadow bg-body rounded">
+            <div class="card h-100">
+              <div class="d-flex justify-content-between card-header pb-0">
+                <strong>Тема: {{ idea.theme }}</strong>
+                <p>{{ idea.project }}</p>
+              </div>
+              <div class="card-body card-idea">
+                <p class="card-text">Описание: {{ idea.short_description }}</p>
+                <p class="card-text">Формат: {{ idea.format }}</p>
+                <p class="card-text">Дата: {{ idea.publish_date }}</p>
+                <p class="card-text">Готово: {{ idea.is_done }}</p>
+                <div class="d-grid gap-2">
+                  <a class="btn btn-outline-secondary btn-sm"
+                    href="{% url 'projects:update-idea' idea.pk %}">Редактировать</a>
+                  <a class="btn btn-outline-secondary btn-sm" href="{% url 'projects:update-post' idea.pk %}">В
+                    публикацию</a>
+                  <a class="btn btn-outline-danger btn-sm" href="{% url 'projects:delete' idea.pk %}">Удалить</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
   </div>
   <!-- ***** MAIN CONTENT END ***** -->
 </div>
