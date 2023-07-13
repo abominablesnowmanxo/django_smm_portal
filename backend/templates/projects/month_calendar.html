@@ -37,7 +37,7 @@
       <div class="col-sm {% if date == today %}cell-today{% else %}cell{% endif %}">
         <div class="d-flex justify-content-between day">
           <div>
-            <a href="{% url 'projects:create-idea' %}" class="add">&#10010;</a>
+            <a href="{% url 'projects:create-idea' %}?date={{ date.year }}-{{date.month}}-{{date.day}}" class="add">&#10010;</a>
           </div>
           <div>
             <span>{{date.day}}</span>

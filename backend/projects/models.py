@@ -93,4 +93,4 @@ class PostIdea(models.Model):
         verbose_name_plural = 'Идеи для постов'
 
     def get_absolute_url(self):
-        return reverse("author-detail", kwargs={"pk": self.pk})
+        return reverse('update-idea', kwargs={'pk': self.pk})

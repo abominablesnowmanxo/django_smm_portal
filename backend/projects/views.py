@@ -1,9 +1,11 @@
 from datetime import datetime
-from django.shortcuts import redirect, render
-from django.urls import reverse, reverse_lazy
+from typing import Any, Dict
+from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 
 from utils.my_calendar import MyCalendar
 from .forms import PostIdeaForm
@@ -23,7 +25,8 @@ class IdeasListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(author=self.request.user)
+        q = self.request.GET.get('q') if self.request.GET.get('q') != None else ''
+        queryset = queryset.filter(author=self.request.user, project__name__icontains=q)
         return queryset
 
     def get_context_data(self, *args, **kwargs):
@@ -42,6 +45,14 @@ class IdeaCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+    def get_initial(self) -> Dict[str, Any]:
+        initial = super().get_initial()
+        current_date = self.request.GET.get('date')
+        if current_date is not None:
+            datetime_date = datetime.strptime(current_date, '%Y-%m-%d')
+            initial['publish_date'] = datetime_date
+        return initial
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = PostIdea
@@ -58,7 +69,6 @@ class IdeaUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         obj = super().get_object()
-        print(obj)
         if obj.author != self.request.user:
             raise PermissionDenied()
         return obj
@@ -72,7 +82,6 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         obj = super().get_object()
-        print(obj)
         if obj.author != self.request.user:
             raise PermissionDenied()
         return obj
@@ -85,7 +94,6 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_object(self):
         obj = super().get_object()
-        print(obj)
         if obj.author != self.request.user:
             raise PermissionDenied()
         return obj
