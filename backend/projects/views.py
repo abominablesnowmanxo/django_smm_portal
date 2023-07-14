@@ -17,7 +17,7 @@ class HomePageView(LoginRequiredMixin, TemplateView):
 
 
 class IdeasListView(LoginRequiredMixin, ListView):
-    model = PostIdea
+    queryset = PostIdea.objects.select_related('author', 'project', 'heading', 'content_type', 'social_network', 'format', 'is_done')
     template_name = 'projects/all_ideas.html'
     context_object_name = 'ideas'
     paginate_by = 6
@@ -49,8 +49,7 @@ class IdeaCreateView(LoginRequiredMixin, CreateView):
         initial = super().get_initial()
         current_date = self.request.GET.get('date')
         if current_date is not None:
-            datetime_date = datetime.strptime(current_date, '%Y-%m-%d')
-            initial['publish_date'] = datetime_date
+            initial['publish_date'] = datetime.strptime(current_date, '%Y-%m-%d')
         return initial
 
 
@@ -107,7 +106,7 @@ def month_calendar(request):
     month_name = my_calendar.month_name
     month_dates = my_calendar.month_dates
     today = datetime.now().date
-    posts = PostIdea.objects.filter(publish_date__in=month_dates).all()
+    posts = PostIdea.objects.filter(publish_date__in=month_dates, author=request.user).select_related('author', 'project', 'heading', 'content_type', 'social_network', 'format', 'is_done')
 
     return render(request, 'projects/month_calendar.html', {
         'current_year': current_year,
@@ -128,7 +127,13 @@ def month_calendar_change(request, year, month):
     month_name = my_calendar.month_name
     month_dates = my_calendar.month_dates
     today = datetime.now().date
-    posts = PostIdea.objects.filter(publish_date__in=month_dates).all()
+    posts = (PostIdea.objects
+             .filter(publish_date__in=month_dates, author=request.user)
+             .select_related(
+                    'author', 'project', 'heading', 'content_type',
+                    'social_network', 'format', 'is_done'
+                )
+            )
 
     return render(request, 'projects/month_calendar.html', {
         'current_year': current_year,
@@ -137,5 +142,29 @@ def month_calendar_change(request, year, month):
         'next_date': next_date,
         'today': today,
         'month_dates': month_dates,
+        'posts': posts
+    })
+
+
+def week_calendar(request):
+    my_calendar = MyCalendar()
+    current_year = my_calendar.year
+    prev_date = my_calendar.previous_date
+    next_date = my_calendar.next_date
+    month_name = my_calendar.month_name
+    week_dates = my_calendar.week_dates
+    today = datetime.now().date
+    posts = PostIdea.objects.filter(publish_date__in=week_dates, author=request.user).all()
+    for post in posts:
+        print(post.theme)
+
+    return render(request, 'projects/week_calendar.html', {
+        'current_year': current_year,
+        'month_name': month_name,
+        'prev_date': prev_date,
+        'next_date': next_date,
+        'today': today,
+        'month_dates': range(0,49),
+        'week_dates': week_dates,
         'posts': posts
     })

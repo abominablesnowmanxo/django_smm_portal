@@ -10,6 +10,7 @@ urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
     path('all_ideas/', IdeasListView.as_view(), name='all_ideas'),
     path('month_calendar/', views.month_calendar, name='month-calendar'),
+    path('week_calendar/', views.week_calendar, name='week-calendar'),
     path('month_calendar/<int:year>/<int:month>/', views.month_calendar_change, name='month-calendar-change'),
     path('idea/new/', IdeaCreateView.as_view(), name='create-idea'),
     path('post/new/', PostCreateView.as_view(), name='create-post'),

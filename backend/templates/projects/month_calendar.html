@@ -44,7 +44,6 @@
           </div>
         </div>
         {% for post in posts %}
-        {% if request.user == post.author %}
         {% if post.publish_date == date %}
         <a href="{% url 'projects:update-post' post.pk %}">
           <div class="post">
@@ -66,7 +65,6 @@
             </div>
           </div>
         </a>
-        {% endif %}
         {% endif %}
         {% endfor %}
       </div>

@@ -1,10 +1,11 @@
-from datetime import datetime
+# from datetime import datetime
+import datetime
 import calendar
 from collections import namedtuple
 
 
-CURRENT_MONTH = datetime.now().month
-CURRENT_YEAR = datetime.now().year
+CURRENT_MONTH = datetime.datetime.now().month
+CURRENT_YEAR = datetime.datetime.now().year
 Date = namedtuple('Date', ['year', 'month'])
 
 
@@ -42,3 +43,20 @@ class MyCalendar:
     def month_dates(self):
         dates_gen = calendar.Calendar().itermonthdates(self.year, self.month)
         return [date for date in dates_gen]
+
+    @property
+    def week_dates(self):
+        dates_gen = calendar.Calendar().itermonthdates(self.year, self.month)
+        today = datetime.datetime.now().date
+        output = calendar.firstweekday()
+        print(output)
+        return [date for date in dates_gen]
+
+
+    @property
+    def week_dates(self):
+        today = datetime.date.today()
+        current_weekday = today.weekday()  # Monday is 0 and Sunday is 6
+        start_of_week = today - datetime.timedelta(days=current_weekday)
+        dates_of_week = [start_of_week + datetime.timedelta(days=i) for i in range(7)]
+        return dates_of_week
