@@ -3,11 +3,11 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-$)=u$3sccf^woyqei2br5#_tu9yhu0nk@cya2tj1d74rgnjud('
+SECRET_KEY = str(os.environ.get('SECRET_KEY'))
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
@@ -41,6 +41,10 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+}
+
 ROOT_URLCONF = 'smm_portal.urls'
 
 TEMPLATES = [
@@ -62,14 +66,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'smm_portal.wsgi.application'
 
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get(
+            'DB_ENGINE', default='django.db.backends.postgresql'
+        ),
+        'NAME': os.environ.get('DB_DATABASE', default='postgres'),
+        'USER': os.environ.get('DB_USER', default='user'),
+        'PASSWORD': os.environ.get('_PASSWORD', default='password'),
+        'HOST': os.environ.get('DB_HOST', default='127.0.0.1'),
+        'PORT': os.environ.get('DB_PORT', default='5432')
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {

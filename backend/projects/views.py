@@ -1,10 +1,12 @@
 from datetime import datetime
+from django.utils import timezone
 from typing import Any, Dict
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
 from utils.my_calendar import MyCalendar
@@ -98,6 +100,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         return obj
 
 
+@login_required
 def month_calendar(request):
     my_calendar = MyCalendar()
     current_year = my_calendar.year
@@ -105,8 +108,9 @@ def month_calendar(request):
     next_date = my_calendar.next_date
     month_name = my_calendar.month_name
     month_dates = my_calendar.month_dates
-    today = datetime.now().date
+    today = timezone.now().date
     posts = PostIdea.objects.filter(publish_date__in=month_dates, author=request.user).select_related('author', 'project', 'heading', 'content_type', 'social_network', 'format', 'is_done')
+    print(timezone.now())
 
     return render(request, 'projects/month_calendar.html', {
         'current_year': current_year,
@@ -119,6 +123,7 @@ def month_calendar(request):
     })
 
 
+@login_required
 def month_calendar_change(request, year, month):
     my_calendar = MyCalendar(year, month)
     current_year = my_calendar.year
