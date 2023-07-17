@@ -30,12 +30,14 @@
   <div class="container shadow mb-5 bg-body rounded">
     <div class="row grid-week">
       <div class="weekday">Дата</div>
+      <div class="weekday">Проект</div>
       <div class="weekday">Площадка</div>
       <div class="weekday">Формат</div>
       <div class="weekday">Рубрика</div>
       <div class="weekday">Тип контента</div>
       <div class="weekday">Тема публикации</div>
       <div class="weekday">Готово</div>
+      <div class="weekday">Edit</div>
 
       {% for date in week_dates %}
       <div class="col-sm {% if date == today %}cell-today{% else %}cell{% endif %}">
@@ -45,6 +47,21 @@
           {{ date.day }}
         </div>
       </div>
+
+      <div class="col-sm cell-week">
+        <hr>
+        {% for post in posts %}
+        {% if post.publish_date == date %}
+        <div class="cell-model post-week">
+          <div class="post-desc-week">
+            {{ post.project }}
+          </div>
+        </div>
+        <hr>
+        {% endif%}
+        {% endfor%}
+      </div>
+
       <div class="col-sm cell-week">
         <hr>
         {% for post in posts %}
@@ -58,6 +75,7 @@
         {% endif%}
         {% endfor%}
       </div>
+
       <div class="col-sm cell-week">
         <hr>
         {% for post in posts %}
@@ -71,6 +89,7 @@
         {% endif%}
         {% endfor%}
       </div>
+
       <div class="col-sm cell-week">
         <hr>
         {% for post in posts %}
@@ -84,6 +103,7 @@
         {% endif%}
         {% endfor%}
       </div>
+
       <div class="col-sm cell-week">
         <hr>
         {% for post in posts %}
@@ -97,6 +117,7 @@
         {% endif%}
         {% endfor%}
       </div>
+
       <div class="col-sm cell-week">
         <hr>
         {% for post in posts %}
@@ -110,13 +131,33 @@
         {% endif%}
         {% endfor%}
       </div>
+
       <div class="col-sm cell-week">
         <hr>
         {% for post in posts %}
         {% if post.publish_date == date %}
         <div class="cell-model post-week">
-          <div  class="post-desc-week">
-            {{ post.is_done }}
+          <div  class="post-desc-week ">
+            <!-- {{ post.is_done }} -->
+            {% if post.is_done.id == 1 %}
+            <i class="done">&#10003;</i>
+            {% else %}
+            <i class="notdone">&#10007;</i>
+            {% endif %}
+          </div>
+        </div>
+        <hr>
+        {% endif%}
+        {% endfor%}
+      </div>
+
+      <div class="col-sm cell-week">
+        <hr>
+        {% for post in posts %}
+        {% if post.publish_date == date %}
+        <div class="cell-model post-week">
+          <div  class="post-desc-week ">
+            <a href="{% url 'projects:update-post' post.pk %}?next={{ request.path|urlencode }}"><i class="edit">&#9998;</i></a>
           </div>
         </div>
         <hr>

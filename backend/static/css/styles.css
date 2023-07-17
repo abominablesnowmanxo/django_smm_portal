@@ -109,7 +109,7 @@ a {
 
 .grid-week {
   display: grid;
-  grid-template-columns: 0.5fr 0.8fr 0.8fr 0.8fr 0.8fr 1fr 0.5fr;
+  grid-template-columns: 0.5fr 0.6fr 0.6fr 0.6fr 0.6fr 0.6fr 1fr 0.3fr 0.3fr;
 }
 
 .cell-model {
@@ -139,17 +139,7 @@ a {
 .day {
   text-align: right;
   margin-bottom: 5px;
-  /* background-color: red; */
-  /* justify-content: left; */
-  /* padding: 2px; */
-  /* background: #333333; */
-  /* color: #fff; */
-  /* width: 25px; */
-  /* border-radius: 50%; */
-  /* flex: 0 0 auto; */
-  /* align-self: flex-end; */
 }
-
 
 .post {
   flex: 0 0 auto;
@@ -179,32 +169,30 @@ a {
   overflow: hidden;
 }
 
-/*
-.post-week:hover {
-  flex: 0 0 auto;
-  font-size: 12px;
-  padding: 15px;
-  line-height: 14px;
-  background: #e4f2f2;
-  border: 1px solid #b5dbdc;
-  color: #009aaf;
-  text-decoration: none;
-  max-height: 150px;
-  overflow: hidden;
-} */
-
-.post-done {
-  flex: 0 0 auto;
-  font-size: 13px;
-  border-radius: 4px;
-  padding: 5px;
-  margin-bottom: 5px;
-  line-height: 14px;
-  background: #59df7b;
-  border: 1px solid #b5dbdc;
-  color: #009aaf;
-  text-decoration: none;
+.done {
+  font-size: 3em;
+  color:green
 }
+
+.notdone {
+  font-size: 3em;
+  color:rgb(229, 73, 25)
+}
+
+.edit {
+  font-size: 3em;
+  /* color:rgb(229, 73, 25) */
+}
+
+.post-week.done {
+  background: rgb(61, 243, 130);
+  content: "\2713";
+}
+
+.post-week.notdone {
+  background: rgb(233, 202, 29);
+}
+
 
 hr {
   margin: 5px;
@@ -212,8 +200,6 @@ hr {
 
 .post:hover {
   font-size: 15px;
-  /* background: #c0c1c1; */
-  /* border-color: black; */
 }
 
 .post-desc {

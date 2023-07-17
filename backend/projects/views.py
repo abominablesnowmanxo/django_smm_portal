@@ -43,7 +43,7 @@ class IdeaCreateView(LoginRequiredMixin, CreateView):
     model = PostIdea
     form_class = PostIdeaForm
     template_name = 'projects/create_idea.html'
-    success_url = reverse_lazy('projects:all_ideas')
+    # success_url = reverse_lazy('projects:all_ideas')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -56,12 +56,23 @@ class IdeaCreateView(LoginRequiredMixin, CreateView):
             initial['publish_date'] = datetime.strptime(current_date, '%Y-%m-%d')
         return initial
 
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return "%s" % (next_url)
+        else :
+            return reverse('projects:all_ideas')
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = PostIdea
     form_class = PostIdeaForm
     template_name = 'projects/create_post.html'
     success_url = reverse_lazy('projects:all_ideas')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class IdeaUpdateView(LoginRequiredMixin, UpdateView):
@@ -81,13 +92,21 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = PostIdea
     form_class = PostIdeaForm
     template_name = 'projects/update_post.html'
-    success_url = reverse_lazy('projects:all_ideas')
+    # success_url = reverse_lazy('projects:all_ideas')
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return "%s" % (next_url)
+        else :
+            return reverse('projects:all_ideas')
 
     def get_object(self):
         obj = super().get_object()
         if obj.author != self.request.user:
             raise PermissionDenied()
         return obj
+
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = PostIdea
