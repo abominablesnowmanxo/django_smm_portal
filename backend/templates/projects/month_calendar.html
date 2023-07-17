@@ -19,8 +19,7 @@
     <a class="btn btn-secondary btn-sm" href="{% url 'projects:month-calendar' %}">
       Today
     </a>
-    <a class="btn btn-outline-secondary btn-sm"
-      href="{% url 'projects:week-calendar' %}">
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'projects:week-calendar' %}">
       Week
     </a>
     <div class="text-center">
@@ -41,7 +40,8 @@
       <div class="col-sm {% if date == today %}cell-today{% else %}cell{% endif %}">
         <div class="d-flex justify-content-between day">
           <div>
-            <a href="{% url 'projects:create-idea' %}?date={{ date.year }}-{{date.month}}-{{date.day}}&next={{ request.path|urlencode }}" class="add">&#10010;</a>
+            <a href="{% url 'projects:create-idea' %}?date={{ date.year }}-{{date.month}}-{{date.day}}&next={{ request.path|urlencode }}"
+              class="add">&#10010;</a>
           </div>
           <div>
             <span>{{date.day}}</span>

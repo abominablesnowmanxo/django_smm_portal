@@ -170,18 +170,22 @@ a {
 }
 
 .done {
-  font-size: 3em;
+  font-size: 2em;
   color:green
 }
 
 .notdone {
-  font-size: 3em;
+  font-size: 2em;
   color:rgb(229, 73, 25)
 }
 
 .edit {
-  font-size: 3em;
+  font-size: 2em;
   /* color:rgb(229, 73, 25) */
+}
+
+.hide {
+  display: none;
 }
 
 .post-week.done {
