@@ -1,4 +1,6 @@
 from datetime import datetime
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.utils import timezone
 from typing import Any, Dict
 from django.shortcuts import render
@@ -81,6 +83,9 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'projects/update_post.html'
     success_url = reverse_lazy('projects:all_ideas')
 
+    def get_success_url(self) -> str:
+        return super().get_success_url()
+
     def get_object(self):
         obj = super().get_object()
         if obj.author != self.request.user:
@@ -160,8 +165,7 @@ def week_calendar(request):
     week_dates = my_calendar.week_dates
     today = datetime.now().date
     posts = PostIdea.objects.filter(publish_date__in=week_dates, author=request.user).all()
-    for post in posts:
-        print(post.theme)
+    print(week_dates)
 
     return render(request, 'projects/week_calendar.html', {
         'current_year': current_year,

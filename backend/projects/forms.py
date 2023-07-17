@@ -44,7 +44,6 @@ class PostIdeaForm(forms.ModelForm):
 
 
     project = forms.ModelChoiceField(
-        required=False,
         label='Проект',
         queryset=Project.objects,
         empty_label='Выберите проект',

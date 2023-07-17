@@ -157,24 +157,27 @@ a {
 }
 
 .post-week {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 0 0 auto;
-  font-size: 15px;
-  padding: 15px;
+  font-size: 12px;
+  /* padding: 15px; */
   /* margin-bottom: 5px; */
   line-height: 14px;
   background: #e4f2f2;
   border: 1px solid #b5dbdc;
   color: #009aaf;
   text-decoration: none;
-  max-height: 50px;
+  height: 50px;
   overflow: hidden;
 }
 
+/*
 .post-week:hover {
   flex: 0 0 auto;
-  font-size: 15px;
+  font-size: 12px;
   padding: 15px;
-  /* margin-bottom: 5px; */
   line-height: 14px;
   background: #e4f2f2;
   border: 1px solid #b5dbdc;
@@ -182,7 +185,7 @@ a {
   text-decoration: none;
   max-height: 150px;
   overflow: hidden;
-}
+} */
 
 .post-done {
   flex: 0 0 auto;
@@ -195,6 +198,10 @@ a {
   border: 1px solid #b5dbdc;
   color: #009aaf;
   text-decoration: none;
+}
+
+hr {
+  margin: 5px;
 }
 
 .post:hover {
@@ -210,11 +217,11 @@ a {
 }
 
 .post-desc-week {
-
   color: #666;
   margin: 3px 0 7px 0;
   text-decoration: none;
 }
+
 
 .add {
   color: #6c757d;

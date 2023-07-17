@@ -16,11 +16,15 @@
       href="{% url 'projects:month-calendar-change' next_date.year next_date.month %}">
       Next
     </a>
-    <a class="btn btn-secondary btn-sm" href="{% url 'projects:month-calendar' %}">
+    <a class="btn btn-secondary btn-sm" href="{% url 'projects:week-calendar' %}">
       Today
     </a>
+    <a class="btn btn-outline-secondary btn-sm"
+      href="{% url 'projects:month-calendar' %}">
+      Month
+    </a>
     <div class="text-center">
-      <h1>{{ month_name }} {{ current_year }}</h1>
+      <h1>{{ week_dates.0.day }}-{{ week_dates.6.day }} {{month_name}} {{ current_year }}</h1>
     </div>
   </div>
   <div class="container shadow mb-5 bg-body rounded">
@@ -118,46 +122,6 @@
         {% endfor%}
       </div>
       {% endfor %}
-
-
-
-
-
-
-      <!-- <div class="d-flex justify-content-between day">
-          <div>
-            <a href="{% url 'projects:create-idea' %}?date={{ date.year }}-{{date.month}}-{{date.day}}" class="add">&#10010;</a>
-          </div>
-          <div>
-            <span>{{date.day}}</span>
-          </div>
-        </div> -->
-      <!-- {% for post in posts %}
-        {% if request.user == post.author %}
-        {% if post.publish_date == date %}
-        <a href="{% url 'projects:update-post' post.pk %}">
-          <div class="post">
-            <div class="post-time">
-              <div class="post-desc">
-                {{ post.theme }}
-              </div>
-              <div class="post-desc">
-                <span class="{% if post.is_done.id == 1 %}dot-done{% else %}dot{% endif %}"></span>
-              </div>
-            </div>
-            <div class="post-time">
-              <div>
-                {{ post.format }}
-              </div>
-              <div class="project">
-                <span class="project-text">{{ post.project }}</span>
-              </div>
-            </div>
-          </div>
-        </a>
-        {% endif %}
-        {% endif %}
-        {% endfor %} -->
 
     </div>
   </div>
