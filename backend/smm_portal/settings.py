@@ -120,5 +120,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-LOGIN_REDIRECT_URL = '/all_ideas/'
+LOGIN_REDIRECT_URL = '/month_calendar/'
 LOGOUT_REDIRECT_URL = '/'

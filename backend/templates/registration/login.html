@@ -4,36 +4,35 @@
 
 {% block content %}
 <div class="container container-account mb-3">
+  <div class="container-account">
     <h1 class="text-center">Log In</h1>
     <hr>
-    <div class="shadow mb-5 bg-body rounded">
-      <div class="card text-center">
-        <div class="card-body card-account">
-          <div class="form-group">
-            <form action="" method="post">
-              <div class="row g-2">
-                {% csrf_token %}
-                <div class="col-md-12 mb-3 form-floating required">
-                  {{ form.username }}
-                  <label class="control-label" for="id_{{form.username.label}}">{{form.username.label}}</label>
-                </div>
-                <div class="col-md-12 mb-3 form-floating required">
-                  {{ form.password }}
-                  <label class="control-label"
-                    for="id_{{form.password1}}">{{ form.password.label }}</label>
-                </div>
-                <div class="d-grid gap-2 col-6 mx-auto">
-                  <button class="btn btn-secondary btn-lg">Войти</button>
-                </div>
-            </form>
-            <p><a href="#" id="forgot-password">Забыли Пароль?</a></p>
-            <hr class="my-1">
-            <div class="d-grid gap-2 col-6 mx-auto">
-              <a href="{% url 'accounts:signup' %}" class="btn btn-secondary btn-lg mt-3 mb-1">Зарегистрироваться</a>
+  </div>
+  <div class="card login-card text-center shadow mb-5 bg-body rounded">
+    <div class="card-body card-account">
+      <div class="form-group">
+        <form action="" method="post">
+          <div class="row g-2">
+            {% csrf_token %}
+            <div class="col-md-12 mb-3 form-floating required">
+              {{ form.username }}
+              <label class="control-label" for="id_{{form.username.label}}">{{form.username.label}}</label>
             </div>
-          </div>
+            <div class="col-md-12 mb-3 form-floating required">
+              {{ form.password }}
+              <label class="control-label" for="id_{{form.password1}}">{{ form.password.label }}</label>
+            </div>
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button class="btn btn-secondary btn-lg">Войти</button>
+            </div>
+        </form>
+        <p><a href="#" id="forgot-password">Забыли Пароль?</a></p>
+        <hr class="my-1">
+        <div class="mx-auto">
+          <a href="{% url 'accounts:signup' %}" class="btn btn-secondary btn-lg mt-3 mb-1">Зарегистрироваться</a>
         </div>
       </div>
     </div>
   </div>
+</div>
 {% endblock content %}

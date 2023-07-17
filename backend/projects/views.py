@@ -1,10 +1,10 @@
 from datetime import datetime
 from django.forms.models import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 from typing import Any, Dict
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -82,9 +82,6 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     form_class = PostIdeaForm
     template_name = 'projects/update_post.html'
     success_url = reverse_lazy('projects:all_ideas')
-
-    def get_success_url(self) -> str:
-        return super().get_success_url()
 
     def get_object(self):
         obj = super().get_object()

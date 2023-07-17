@@ -40,8 +40,14 @@
   <!-- ***** MAIN CONTENT START ***** -->
   <div class="container-ideas">
     <div>
-      <strong>Filters</strong>
-      <a href="{% url 'projects:all_ideas' %}">Clear</a>
+      <div class="d-flex justify-content-between mb-3">
+        <div>
+          <strong>Filters</strong>
+        </div>
+        <div class="mx-4">
+          <a href="{% url 'projects:all_ideas' %}">Clear</a>
+        </div>
+      </div>
       <div class="me-4">
         <div class="accordion" id="accordionExample">
           <div class="accordion-item">
@@ -51,7 +57,7 @@
                 Проекты
               </button>
             </h2>
-            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
               data-bs-parent="#accordionExample">
               {% for project in projects %}
               <div class="accordion-body">

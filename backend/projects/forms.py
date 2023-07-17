@@ -14,7 +14,7 @@ class PostIdeaForm(forms.ModelForm):
     format = forms.ModelChoiceField(
         label='Формат',
         queryset=Format.objects,
-        empty_label='Выберите вариант',
+        empty_label='Выберите формат',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
@@ -22,7 +22,7 @@ class PostIdeaForm(forms.ModelForm):
         required=False,
         label='Площадка',
         queryset=SocialNetwork.objects,
-        empty_label='Выберите вариант',
+        empty_label='Выберите площадку',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
@@ -30,7 +30,7 @@ class PostIdeaForm(forms.ModelForm):
         required=False,
         label='Тип контента',
         queryset=ContentType.objects,
-        empty_label='Выберите вариант',
+        empty_label='Выберите тип контента',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
@@ -38,7 +38,7 @@ class PostIdeaForm(forms.ModelForm):
         required=False,
         label='Рубрика',
         queryset=Heading.objects,
-        empty_label='Выберите вариант',
+        empty_label='Выберите рубрику',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
