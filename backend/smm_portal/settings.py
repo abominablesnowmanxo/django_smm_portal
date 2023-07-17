@@ -66,6 +66,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'smm_portal.wsgi.application'
 
+
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get(
@@ -73,7 +74,7 @@ DATABASES = {
         ),
         'NAME': os.environ.get('DB_DATABASE', default='postgres'),
         'USER': os.environ.get('DB_USER', default='user'),
-        'PASSWORD': os.environ.get('_PASSWORD', default='password'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', default='password'),
         'HOST': os.environ.get('DB_HOST', default='127.0.0.1'),
         'PORT': os.environ.get('DB_PORT', default='5432')
     }

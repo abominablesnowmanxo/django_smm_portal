@@ -5,7 +5,7 @@ VALUES ('Facebook'), ('Instagram'), ('Pinterest'), ('Telegram'), ('TikTok'),
 
 
 -- FORMATS
-INSERT INTO projects_formats (format)
+INSERT INTO projects_format (format)
 VALUES ('Карусель'), ('Кружочек'), ('Пост'), ('Рилз'), ('Сториз');
 
 

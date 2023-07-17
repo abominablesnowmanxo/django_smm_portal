@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import ContentType, Done, Heading, Project, PostIdea, Formats, SocialNetwork
+from .models import ContentType, Done, Heading, Project, PostIdea, Format, SocialNetwork
 
 
 class PostIdeaForm(forms.ModelForm):
@@ -13,7 +13,7 @@ class PostIdeaForm(forms.ModelForm):
 
     format = forms.ModelChoiceField(
         label='Формат',
-        queryset=Formats.objects,
+        queryset=Format.objects,
         empty_label='Выберите вариант',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
@@ -71,10 +71,4 @@ class PostIdeaForm(forms.ModelForm):
             'inventory': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Инвентарь', 'rows': 4}),
             'to_do_list': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'To Do', 'rows': 4}),
             'notes': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Заметки', 'rows': 4}),
-            # 'heading': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Рубрика'}),
-            # 'content_type': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Тип Контента'}),
-            # 'social_network': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Площадка'}),
-            # 'format': forms.Select(attrs={'class': 'form-select', 'placeholder': 'Формат'}),
-            # 'format': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Формат'}),
-            # 'is_done': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Готово'}),
         }
