@@ -26,16 +26,17 @@ class IdeasListView(LoginRequiredMixin, ListView):
     template_name = 'projects/all_ideas.html'
     context_object_name = 'ideas'
     paginate_by = 6
-    ordering = ('-publish_date')
 
     def get_queryset(self) -> QuerySet[Any]:
-        q = self.request.GET.get('q', '')
         queryset = PostIdea.objects.select_related(
-            'author', 'project', 'heading', 'content_type', 'social_network',
-            'format', 'is_done').filter(
-            Q(author=self.request.user) & Q(project__name__icontains=q)
-        )
-        return queryset
+                'author', 'project', 'heading', 'content_type',
+                'social_network', 'format', 'is_done'
+                ).filter(author=self.request.user)
+
+        q = self.request.GET.get('q')
+        if q:
+            queryset = queryset.filter(project__name__icontains=q)
+        return queryset.order_by('-publish_date')
 
     def get_context_data(self, *args, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(*args, **kwargs)
