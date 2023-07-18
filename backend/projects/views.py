@@ -213,7 +213,7 @@ def update_event_date(request):
         post_id = post_data.get('id')
         post_new_publish_date = post_data.get('publishDate')
         post_new_publish_date = datetime.strptime(
-            post_new_publish_date, '%B %d, %Y'
+            post_new_publish_date, '%b %d, %Y'
         )
         post = get_object_or_404(PostIdea, pk=post_id)
         post.publish_date = post_new_publish_date
