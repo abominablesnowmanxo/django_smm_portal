@@ -50,7 +50,7 @@
         </div>
         {% for post in posts %}
         {% if post.publish_date == date %}
-        <div class="post" data-event-id="{{post.pk}}" data-original-date="{{post.publish_date}}">
+        <div class="post" data-post-id="{{post.pk}}" data-original-date="{{post.publish_date}}">
           <div class="d-flex post-time">
             <div class="post-desc me-auto">
               {{ post.theme }}

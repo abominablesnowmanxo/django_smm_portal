@@ -210,12 +210,14 @@ def week_calendar(request):
 def update_event_date(request):
     if request.method == 'POST':
         post_data = json.loads(request.body.decode("utf-8"))
-        event_id = post_data.get('id')
-        new_start_date = post_data.get('start')
-        new_start_date = datetime.strptime(new_start_date, '%B %d, %Y')
-        event = get_object_or_404(PostIdea, pk=event_id)
-        event.publish_date = new_start_date
-        event.save()
+        post_id = post_data.get('id')
+        post_new_publish_date = post_data.get('publishDate')
+        post_new_publish_date = datetime.strptime(
+            post_new_publish_date, '%B %d, %Y'
+        )
+        post = get_object_or_404(PostIdea, pk=post_id)
+        post.publish_date = post_new_publish_date
+        post.save()
         return JsonResponse({'status': 'success'})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
