@@ -6,11 +6,10 @@ from django.forms.models import BaseModelForm
 from django.http import HttpResponse, JsonResponse
 from django.db.models.query import QuerySet
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 
@@ -203,18 +202,15 @@ def week_calendar(request):
     })
 
 
-@csrf_exempt
 def update_event_date(request):
     if request.method == 'POST':
         post_data = json.loads(request.body.decode("utf-8"))
         event_id = post_data.get('id')
         new_start_date = post_data.get('start')
         new_start_date = datetime.strptime(new_start_date, '%B %d, %Y')
-        try:
-            event = PostIdea.objects.get(pk=event_id)
-            event.publish_date = new_start_date
-            event.save()
-            return JsonResponse({'status': 'success'})
-        except PostIdea.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Event not found'})
+        event = get_object_or_404(PostIdea, pk=event_id)
+        event.publish_date = new_start_date
+        event.save()
+        return JsonResponse({'status': 'success'})
+
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})

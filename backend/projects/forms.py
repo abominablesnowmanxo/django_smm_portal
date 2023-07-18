@@ -51,17 +51,16 @@ class PostIdeaForm(forms.ModelForm):
     )
 
 
-
     class Meta:
         model = PostIdea
         fields = [
-            'publish_date', 'theme', 'hashtags', 'geolocation', 'short_description', 'full_description', 'references', 'inventory', 'to_do_list',
+            'theme', 'publish_date', 'hashtags', 'geolocation', 'short_description', 'full_description', 'references', 'inventory', 'to_do_list',
             'notes','heading', 'content_type', 'social_network', 'format', 'is_done', 'project'
         ]
 
         widgets = {
-            'publish_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'placeholder': 'Дата публикации'}),
             'theme': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Тема публикации'}),
+            'publish_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'placeholder': 'Дата публикации'}),
             'hashtags': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Хэштеги'}),
             'geolocation': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Геолокация'}),
             'short_description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Описание', 'style': 'height: 100px;'}),

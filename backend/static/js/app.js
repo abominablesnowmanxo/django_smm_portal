@@ -1,3 +1,21 @@
+// GET CSRFTOKEN
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 // DRAG_N_DROP MONTH CALENDAR
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -65,11 +83,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     id: eventId,
                     start: newDate, // Assuming the newDate format is compatible with the model field
                 };
+                const csrftoken = getCookie('csrftoken');
+                
                 fetch('/update_event_date/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}', // Add CSRF token if needed
+                        'X-CSRFToken': csrftoken, // Add CSRF token if needed
                     },
                     body: JSON.stringify(updatedEvent),
                 })
