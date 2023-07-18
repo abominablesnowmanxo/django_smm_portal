@@ -189,7 +189,6 @@ a {
   /* color:rgb(229, 73, 25) */
 }
 
-
 .post-week.done {
   background: rgb(61, 243, 130);
   content: "\2713";
@@ -198,7 +197,6 @@ a {
 .post-week.notdone {
   background: rgb(233, 202, 29);
 }
-
 
 hr {
   margin: 5px;
@@ -219,7 +217,6 @@ hr {
   margin: 3px 0 7px 0;
   text-decoration: none;
 }
-
 
 .add {
   color: #6c757d;

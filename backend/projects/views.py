@@ -1,23 +1,18 @@
 import json
 from datetime import datetime
 from typing import Any, Dict
-from django.db.models.query import QuerySet
+from django.core.exceptions import PermissionDenied
 from django.forms.models import BaseModelForm
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
-from django.http import HttpResponse
-from django.utils import timezone
-from typing import Any, Dict
+from django.http import HttpResponse, JsonResponse
 from django.db.models.query import QuerySet
-from django.forms.models import BaseModelForm
-from django.http import HttpResponse
+from django.db.models import Q
 from django.shortcuts import render
-from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 
 from utils.my_calendar import MyCalendar
 from .forms import PostIdeaForm
@@ -206,6 +201,7 @@ def week_calendar(request):
         'week_dates': week_dates,
         'posts': posts
     })
+
 
 @csrf_exempt
 def update_event_date(request):
