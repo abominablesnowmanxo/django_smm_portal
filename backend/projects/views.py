@@ -5,9 +5,10 @@ from django.core.exceptions import PermissionDenied
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse, JsonResponse
 from django.db.models.query import QuerySet
-from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
+from django.views.generic import (
+    CreateView, DeleteView, ListView, TemplateView, UpdateView
+)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
@@ -29,8 +30,7 @@ class IdeasListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = PostIdea.objects.select_related(
-                'author', 'project', 'heading', 'content_type',
-                'social_network', 'format', 'is_done'
+                'project','format', 'is_done'
                 ).filter(author=self.request.user)
 
         q = self.request.GET.get('q')
@@ -133,11 +133,8 @@ def month_calendar(request):
     today = timezone.now().date
     posts = (PostIdea.objects
              .filter(publish_date__in=month_dates, author=request.user)
-             .select_related(
-                    'author', 'project', 'heading', 'content_type',
-                    'social_network', 'format', 'is_done'
-                    )
-                )
+             .select_related('project', 'format', 'is_done')
+        )
 
     return render(request, 'projects/month_calendar.html', {
         'current_year': current_year,
@@ -161,11 +158,8 @@ def month_calendar_change(request, year, month):
     today = datetime.now().date
     posts = (PostIdea.objects
              .filter(publish_date__in=month_dates, author=request.user)
-             .select_related(
-                    'author', 'project', 'heading', 'content_type',
-                    'social_network', 'format', 'is_done'
-                )
-            )
+             .select_related('project', 'format', 'is_done')
+        )
 
     return render(request, 'projects/month_calendar.html', {
         'current_year': current_year,
@@ -207,7 +201,7 @@ def week_calendar(request):
     })
 
 
-def update_event_date(request):
+def update_post_date(request):
     if request.method == 'POST':
         post_data = json.loads(request.body.decode("utf-8"))
         post_id = post_data.get('id')

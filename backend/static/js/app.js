@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 };
                 const csrftoken = getCookie('csrftoken');
 
-                fetch('/update_event_date/', {
+                fetch('/update_post_date/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
