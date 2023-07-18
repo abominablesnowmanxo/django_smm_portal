@@ -1,10 +1,16 @@
 import json
 from datetime import datetime
+from typing import Any, Dict
+from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse
 from django.utils import timezone
 from typing import Any, Dict
-from django.shortcuts import get_object_or_404, redirect, render
+from django.db.models.query import QuerySet
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -23,19 +29,21 @@ class HomePageView(LoginRequiredMixin, TemplateView):
 
 
 class IdeasListView(LoginRequiredMixin, ListView):
-    queryset = PostIdea.objects.select_related('author', 'project', 'heading', 'content_type', 'social_network', 'format', 'is_done')
     template_name = 'projects/all_ideas.html'
     context_object_name = 'ideas'
     paginate_by = 6
     ordering = ('-publish_date')
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        q = self.request.GET.get('q') if self.request.GET.get('q') != None else ''
-        queryset = queryset.filter(author=self.request.user, project__name__icontains=q)
+    def get_queryset(self) -> QuerySet[Any]:
+        q = self.request.GET.get('q', '')
+        queryset = PostIdea.objects.select_related(
+            'author', 'project', 'heading', 'content_type', 'social_network',
+            'format', 'is_done').filter(
+            Q(author=self.request.user) & Q(project__name__icontains=q)
+        )
         return queryset
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, *args, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(*args, **kwargs)
         context['projects'] = Project.objects.filter(author=self.request.user)
         return context
@@ -45,9 +53,8 @@ class IdeaCreateView(LoginRequiredMixin, CreateView):
     model = PostIdea
     form_class = PostIdeaForm
     template_name = 'projects/create_idea.html'
-    # success_url = reverse_lazy('projects:all_ideas')
 
-    def form_valid(self, form):
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
         form.instance.author = self.request.user
         return super().form_valid(form)
 
@@ -58,12 +65,11 @@ class IdeaCreateView(LoginRequiredMixin, CreateView):
             initial['publish_date'] = datetime.strptime(current_date, '%Y-%m-%d')
         return initial
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         next_url = self.request.GET.get('next')
         if next_url:
-            return "%s" % (next_url)
-        else :
-            return reverse('projects:all_ideas')
+            return next_url
+        return reverse('projects:all_ideas')
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -72,7 +78,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     template_name = 'projects/create_post.html'
     success_url = reverse_lazy('projects:all_ideas')
 
-    def form_valid(self, form):
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
         form.instance.author = self.request.user
         return super().form_valid(form)
 
@@ -94,14 +100,12 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = PostIdea
     form_class = PostIdeaForm
     template_name = 'projects/update_post.html'
-    # success_url = reverse_lazy('projects:all_ideas')
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         next_url = self.request.GET.get('next')
         if next_url:
-            return "%s" % (next_url)
-        else :
-            return reverse('projects:all_ideas')
+            return next_url
+        return reverse('projects:all_ideas')
 
     def get_object(self):
         obj = super().get_object()
@@ -132,8 +136,13 @@ def month_calendar(request):
     month_name = my_calendar.month_name
     month_dates = my_calendar.month_dates
     today = timezone.now().date
-    posts = PostIdea.objects.filter(publish_date__in=month_dates, author=request.user).select_related('author', 'project', 'heading', 'content_type', 'social_network', 'format', 'is_done')
-    print(timezone.now())
+    posts = (PostIdea.objects
+             .filter(publish_date__in=month_dates, author=request.user)
+             .select_related(
+                    'author', 'project', 'heading', 'content_type',
+                    'social_network', 'format', 'is_done'
+                    )
+                )
 
     return render(request, 'projects/month_calendar.html', {
         'current_year': current_year,
@@ -174,16 +183,18 @@ def month_calendar_change(request, year, month):
     })
 
 
+@login_required
 def week_calendar(request):
     my_calendar = MyCalendar()
     current_year = my_calendar.year
     prev_date = my_calendar.previous_date
     next_date = my_calendar.next_date
     month_name = my_calendar.month_name
-    week_dates = my_calendar.week_dates
+    week_dates = my_calendar.week_dates()
     today = datetime.now().date
-    posts = PostIdea.objects.filter(publish_date__in=week_dates, author=request.user).all()
-    print(week_dates)
+    posts = PostIdea.objects.filter(
+        publish_date__in=week_dates,
+        author=request.user)
 
     return render(request, 'projects/week_calendar.html', {
         'current_year': current_year,

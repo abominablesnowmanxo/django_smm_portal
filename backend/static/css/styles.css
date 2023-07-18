@@ -170,17 +170,17 @@ a {
 }
 
 .done {
-  font-size: 3em;
+  font-size: 2em;
   color:green
 }
 
 .notdone {
-  font-size: 3em;
+  font-size: 2em;
   color:rgb(229, 73, 25)
 }
 
 .edit {
-  font-size: 3em;
+  font-size: 2em;
   /* color:rgb(229, 73, 25) */
 }
 
@@ -188,6 +188,7 @@ a {
   font-size: 20px;
   /* color:rgb(229, 73, 25) */
 }
+
 
 .post-week.done {
   background: rgb(61, 243, 130);

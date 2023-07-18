@@ -1,4 +1,3 @@
-# from datetime import datetime
 import datetime
 import calendar
 from collections import namedtuple
@@ -44,17 +43,8 @@ class MyCalendar:
         dates_gen = calendar.Calendar().itermonthdates(self.year, self.month)
         return [date for date in dates_gen]
 
-    @property
-    def week_dates(self):
-        dates_gen = calendar.Calendar().itermonthdates(self.year, self.month)
-        today = datetime.datetime.now().date
-        output = calendar.firstweekday()
-        print(output)
-        return [date for date in dates_gen]
-
-
-    @property
-    def week_dates(self):
+    @classmethod
+    def week_dates(cls):
         today = datetime.date.today()
         current_weekday = today.weekday()  # Monday is 0 and Sunday is 6
         start_of_week = today - datetime.timedelta(days=current_weekday)
