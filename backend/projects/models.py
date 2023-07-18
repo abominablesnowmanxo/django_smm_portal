@@ -92,17 +92,17 @@ class PostIdea(models.Model):
     inventory = models.TextField(verbose_name='Инвентарь', null=True, blank=True)
     to_do_list = models.TextField(verbose_name='To Do List', null=True, blank=True)
     notes = models.TextField(verbose_name='Заметки', null=True, blank=True)
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='postideas', verbose_name='Автор')
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True, related_name='postideas', verbose_name='Проект')
-    heading = models.ForeignKey(Heading, on_delete=models.SET_NULL, related_name='postideas', null=True, blank=True, verbose_name='Рубрика')
-    content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, related_name='postideas', null=True, blank=True, verbose_name='Тип контента')
-    social_network = models.ForeignKey(SocialNetwork, on_delete=models.SET_NULL, related_name='postideas', null=True, blank=True, verbose_name='Площадка')
-    format = models.ForeignKey(Format, on_delete=models.CASCADE, related_name='postideas', verbose_name='Формат')
-    is_done = models.ForeignKey(Done, on_delete=models.CASCADE, related_name='postideas', verbose_name='Готово')
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='post_ideas', verbose_name='Автор')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True, related_name='post_ideas', verbose_name='Проект')
+    heading = models.ForeignKey(Heading, on_delete=models.SET_NULL, related_name='post_ideas', null=True, blank=True, verbose_name='Рубрика')
+    content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, related_name='post_ideas', null=True, blank=True, verbose_name='Тип контента')
+    social_network = models.ForeignKey(SocialNetwork, on_delete=models.SET_NULL, related_name='post_ideas', null=True, blank=True, verbose_name='Площадка')
+    format = models.ForeignKey(Format, on_delete=models.CASCADE, related_name='post_ideas', verbose_name='Формат')
+    is_done = models.ForeignKey(Done, on_delete=models.CASCADE, related_name='post_ideas', verbose_name='Готово')
 
     class Meta:
         verbose_name = 'Идея для поста'
         verbose_name_plural = 'Идеи для постов'
 
     def get_absolute_url(self):
-        return reverse('update-idea', kwargs={'pk': self.pk})
+        return reverse('projects:update-idea', kwargs={'pk': self.pk})

@@ -50,26 +50,32 @@
         </div>
         {% for post in posts %}
         {% if post.publish_date == date %}
-        <a href="{% url 'projects:update-post' post.pk %}?next={{ request.path|urlencode }}">
-        <div class="post" id="post-{{post.pk}}" draggable="true" ondragstart="onDragStart(event);">
-            <div class="post-time">
-              <div class="post-desc">
-                {{ post.theme }}
-              </div>
-              <div class="post-desc">
-                <span class="{% if post.is_done.id == 1 %}dot-done{% else %}dot{% endif %}"></span>
-              </div>
+        <!-- <a href="{% url 'projects:update-post' post.pk %}?next={{ request.path|urlencode }}"> -->
+        <div class="post" data-post={{post.pk}} data-date="{{post.publish_date}}" id="post-{{post.pk}}" draggable="true"
+          ondragstart="onDragStart(event);">
+          <div class="post-time">
+            <div class="post-desc">
+              {{ post.theme }}
             </div>
-            <div class="post-time">
-              <div>
-                {{ post.format }}
+            <a href="{% url 'projects:update-post' post.pk %}?next={{ request.path|urlencode }}">
+              <div class="post-desc">
+                <i class="edit-month">&#9998;</i>
               </div>
-              <div class="project">
-                <span class="project-text">{{ post.project }}</span>
-              </div>
+            </a>
+            <div class="post-desc">
+              <span class="{% if post.is_done.id == 1 %}dot-done{% else %}dot{% endif %}"></span>
             </div>
           </div>
-        </a>
+          <div class="post-time">
+            <div>
+              {{ post.format }}
+            </div>
+            <div class="project">
+              <span class="project-text">{{ post.project }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- </a> -->
         {% endif %}
         {% endfor %}
       </div>
@@ -78,6 +84,18 @@
   </div>
 </div>
 <script>
+  let posts = document.getElementsByClassName('post')
+  console.log(posts)
+
+  for (let i = 0; i < posts.length; i++) {
+    posts[i].addEventListener('click', function () {
+      let postId = this.dataset.post;
+      let postPublishDate = this.dataset.date;
+      console.log('postId', postId, 'postPublishDate', postPublishDate);
+    })
+  }
+
+
   function onDragStart(event) {
     event.dataTransfer.setData('text/plain', event.target.id);
     // event.currentTarget.style.backgroundColor = 'yellow';
@@ -96,59 +114,5 @@
 
   }
 
-  /* draggable element */
-  // const items = document.querySelectorAll('.post');
-
-  // for (i=0; i<items.length; i++) {
-  //   items[i].addEventListener('dragstart', dragStart);
-  // }
-
-
-  // function dragStart(e) {
-  //     e.dataTransfer.setData('text/plain', e.target.id);
-  //     setTimeout(() => {
-  //         e.target.classList.add('hide');
-  //     }, 0);
-  // }
-
-
-  // /* drop targets */
-  // const boxes = document.querySelectorAll('.cell');
-
-  // boxes.forEach(box => {
-  //     box.addEventListener('dragenter', dragEnter)
-  //     box.addEventListener('dragover', dragOver);
-  //     box.addEventListener('dragleave', dragLeave);
-  //     box.addEventListener('drop', drop);
-  // });
-
-
-  // function dragEnter(e) {
-  //     e.preventDefault();
-  //     e.target.classList.add('drag-over');
-  // }
-
-  // function dragOver(e) {
-  //     e.preventDefault();
-  //     e.target.classList.add('drag-over');
-  // }
-
-  // function dragLeave(e) {
-  //     e.target.classList.remove('drag-over');
-  // }
-
-  // function drop(e) {
-  //     e.target.classList.remove('drag-over');
-
-  //     // get the draggable element
-  //     const id = e.dataTransfer.getData('text/plain');
-  //     const draggable = document.getElementById(id);
-
-  //     // add it to the drop target
-  //     e.target.appendChild(draggable);
-
-  //     // display the draggable element
-  //     draggable.classList.remove('hide');
-  // }
 </script>
 {% endblock %}

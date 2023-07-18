@@ -184,6 +184,11 @@ a {
   /* color:rgb(229, 73, 25) */
 }
 
+.edit-month {
+  font-size: 20px;
+  /* color:rgb(229, 73, 25) */
+}
+
 .post-week.done {
   background: rgb(61, 243, 130);
   content: "\2713";
@@ -199,7 +204,7 @@ hr {
 }
 
 .post:hover {
-  font-size: 15px;
+  background-color: #9aebf6;
 }
 
 .post-desc {
