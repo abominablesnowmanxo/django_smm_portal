@@ -17,4 +17,5 @@ urlpatterns = [
     path('idea/<int:pk>/update/', IdeaUpdateView.as_view(), name='update-idea'),
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='update-post'),
     path('delete/<int:pk>/', views.PostDeleteView.as_view(), name='delete'),
+    path('update_event_date/', views.update_event_date, name='update_event_date'),
 ]
