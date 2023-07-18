@@ -186,9 +186,13 @@ def week_calendar(request):
     month_name = my_calendar.month_name
     week_dates = my_calendar.week_dates()
     today = datetime.now().date
-    posts = PostIdea.objects.filter(
-        publish_date__in=week_dates,
-        author=request.user)
+    posts = (PostIdea.objects
+             .filter(publish_date__in=week_dates, author=request.user)
+             .select_related(
+                    'author', 'project', 'heading', 'content_type',
+                    'social_network', 'format', 'is_done'
+                )
+            )
 
     return render(request, 'projects/week_calendar.html', {
         'current_year': current_year,
