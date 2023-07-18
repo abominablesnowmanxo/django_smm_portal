@@ -6,99 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const postElements = document.querySelectorAll('.post');
-    const cellElements = document.querySelectorAll('.cell');
 
-    let draggedPost; // Variable to store the dragged post element
-
-    // Add event listeners to post elements for drag start and end
-    postElements.forEach(post => {
-      post.draggable = true;
-      post.addEventListener('dragstart', handleDragStart);
-      post.addEventListener('dragend', handleDragEnd);
-    });
-
-    // Add event listeners to cell elements for drag over, enter, and drop
-    cellElements.forEach(cell => {
-      cell.addEventListener('dragover', handleDragOver);
-      cell.addEventListener('dragenter', handleDragEnter);
-      cell.addEventListener('drop', handleDrop);
-    });
-
-    // Event listener for drag start
-    function handleDragStart(event) {
-      draggedPost = event.target; // Store the dragged post element
-      event.dataTransfer.setData('text/plain', ''); // Firefox requires data to be set for the drag event to work properly
-      event.dataTransfer.effectAllowed = 'move';
-      draggedPost.classList.add('dragging');
-
-    }
-
-    // Event listener for drag end
-    function handleDragEnd(event) {
-      event.preventDefault();
-      draggedPost.classList.remove('dragging');
-    }
-
-    // Event listeners for drag over and drag enter to allow dropping
-    function handleDragOver(event) {
-      event.preventDefault();
-      event.dataTransfer.dropEffect = 'move';
-    }
-
-    function handleDragEnter(event) {
-      event.preventDefault();
-    }
-
-    // Event listener for drop
-    function handleDrop(event) {
-      event.preventDefault();
-
-      // const id = event.dataTransfer.getData('text');
-      // const draggableElement = document.getElementById(id);
-      const dropzone = event.target;
-      dropzone.appendChild(draggedPost);
-      // event.dataTransfer.clearData();
-
-      const newDate = event.target.getAttribute('data-date');
-
-      // Make sure we have a valid date to drop onto
-      if (newDate) {
-        // Assuming your post element has a data attribute 'data-event-id' containing the event ID
-        const eventId = draggedPost.getAttribute('data-event-id');
-
-
-        // Make an AJAX request to update the event's date in the Django backend
-        const updatedEvent = {
-          id: eventId,
-          start: newDate, // Assuming the newDate format is compatible with the model field
-        };
-        console.log(updatedEvent)
-        fetch('/update_event_date/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': '{{ csrf_token }}', // Add CSRF token if needed
-          },
-          body: JSON.stringify(updatedEvent),
-        })
-          .then(response => response.json())
-          .then(data => {
-            // console.log('success')
-            // Handle success or error response if needed
-            // For example, you can update the UI to reflect the new date.
-            // You may need to reload the calendar or update the event manually.
-          })
-          .catch(error => {
-            // Handle error if needed
-            console.error('Error:', error);
-          });
-      }
-    }
-  });
-</script>
 <div class="container mt-3 mb-5">
   <div class="text-center">
     <a class="btn btn-outline-secondary btn-sm"
@@ -130,7 +38,7 @@
       <div class="weekday">Sunday</div>
 
       {% for date in month_dates %}
-      <div data-date="{{date}}" class="col-sm {% if date == today %}cell-today{% else %}cell{% endif %}">
+      <div data-date="{{date}}" class="col-sm cell {% if date == today %}cell-today{% endif %}">
         <div class="d-flex justify-content-between day">
           <div>
             <a href="{% url 'projects:create-idea' %}?date={{ date.year }}-{{date.month}}-{{date.day}}&next={{ request.path|urlencode }}"
@@ -142,23 +50,28 @@
         </div>
         {% for post in posts %}
         {% if post.publish_date == date %}
-        <!-- <a href="{% url 'projects:update-post' post.pk %}?next={{ request.path|urlencode }}"> -->
         <div class="post" data-event-id="{{post.pk}}" data-original-date="{{post.publish_date}}">
-          <div class="post-time">
-            <div class="post-desc">
+          <div class="d-flex post-time">
+            <div class="post-desc me-auto">
               {{ post.theme }}
             </div>
-            <a href="{% url 'projects:update-post' post.pk %}?next={{ request.path|urlencode }}">
-              <div class="post-desc">
-                <i class="edit-month">&#9998;</i>
-              </div>
-            </a>
+            <div class="post-desc mx-1">
+              <a href="{% url 'projects:update-post' post.pk %}?next={{ request.path|urlencode }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                  class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path
+                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                  <path fill-rule="evenodd"
+                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                </svg>
+              </a>
+            </div>
             <div class="post-desc">
               <span class="{% if post.is_done.id == 1 %}dot-done{% else %}dot{% endif %}"></span>
             </div>
           </div>
-          <div class="post-time">
-            <div>
+          <div class="d-flex post-time">
+            <div class="me-auto">
               {{ post.format }}
             </div>
             <div class="project">
@@ -166,7 +79,6 @@
             </div>
           </div>
         </div>
-        <!-- </a> -->
         {% endif %}
         {% endfor %}
       </div>
@@ -174,35 +86,4 @@
     </div>
   </div>
 </div>
-<!-- <script>
-  let posts = document.getElementsByClassName('post')
-  console.log(posts)
-
-  for (let i = 0; i < posts.length; i++) {
-    posts[i].addEventListener('click', function () {
-      let postId = this.dataset.post;
-      let postPublishDate = this.dataset.date;
-      console.log('postId', postId, 'postPublishDate', postPublishDate);
-    })
-  }
-
-
-  function onDragStart(event) {
-    event.dataTransfer.setData('text/plain', event.target.id);
-  }
-
-  function onDragOver(event) {
-    event.preventDefault();
-  }
-
-  function onDrop(event) {
-    const id = event.dataTransfer.getData('text');
-    const draggableElement = document.getElementById(id);
-    const dropzone = event.target;
-    dropzone.appendChild(draggableElement);
-    event.dataTransfer.clearData();
-
-  }
-
-</script> -->
 {% endblock %}

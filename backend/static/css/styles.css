@@ -226,10 +226,10 @@ hr {
   color: black;
 }
 
-.post-time {
+/* .post-time {
   display: flex;
   justify-content: space-between;
-}
+} */
 
 .project {
   text-align: right;

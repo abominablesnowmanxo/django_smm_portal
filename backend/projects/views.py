@@ -55,9 +55,9 @@ class IdeaCreateView(LoginRequiredMixin, CreateView):
 
     def get_initial(self) -> Dict[str, Any]:
         initial = super().get_initial()
-        current_date = self.request.GET.get('date')
-        if current_date is not None:
-            initial['publish_date'] = datetime.strptime(current_date, '%Y-%m-%d')
+        publish_date = self.request.GET.get('date')
+        if publish_date is not None:
+            initial['publish_date'] = datetime.strptime(publish_date, '%Y-%m-%d')
         return initial
 
     def get_success_url(self) -> str:
