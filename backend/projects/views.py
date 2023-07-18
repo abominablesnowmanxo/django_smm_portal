@@ -2,6 +2,7 @@ import json
 from datetime import datetime
 from typing import Any, Dict
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse, JsonResponse
 from django.db.models.query import QuerySet
@@ -34,12 +35,23 @@ class IdeasListView(LoginRequiredMixin, ListView):
             'author', 'project', 'heading', 'content_type', 'social_network',
             'format', 'is_done').filter(
             Q(author=self.request.user) & Q(project__name__icontains=q)
-        )
+        ).order_by('-publish_date')
         return queryset
 
     def get_context_data(self, *args, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(*args, **kwargs)
+
+        # paginator = Paginator(context['ideas'], self.paginate_by)
+        # page_number = self.request.GET.get('page')
+        # query_params = self.request.GET.copy()
+        # if 'page' in query_params:
+        #     del query_params['page']
+        # query_string = query_params.urlencode()
+
         context['projects'] = Project.objects.filter(author=self.request.user)
+        # context['query_string'] = query_string
+        # context['paginator'] = paginator
+        # context['page_obj'] = paginator.get_page(page_number)
         return context
 
 
