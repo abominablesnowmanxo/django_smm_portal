@@ -42,13 +42,16 @@ class IdeasListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(*args, **kwargs)
 
         paginator = Paginator(context['ideas'], 6)
-        # print(paginator.object_list, paginator.num_pages, flush=True)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
+        query_params = self.request.GET.copy()
+        if 'page' in query_params:
+            del query_params['page']
+        query_string = query_params.urlencode()
 
-
-        context['projects'] = Project.objects.filter(author=self.request.user)
+        context['query_string'] = query_string
         context['page_obj'] = page_obj
+        context['projects'] = Project.objects.filter(author=self.request.user)
         return context
 
 
