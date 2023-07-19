@@ -81,6 +81,13 @@ class Project(models.Model):
         return self.name
 
 
+class Rubricator(models.Model):
+    content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, null=True)
+    heading = models.ForeignKey(Heading, on_delete=models.SET_NULL, null=True)
+    examples = models.TextField(null=True, blank=True)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+
 class PostIdea(models.Model):
     theme = models.CharField(max_length=64, verbose_name='Тема')
     short_description = models.TextField(verbose_name='Краткое описание')

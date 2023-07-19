@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Идеи публикаций
+{% endblock %}
+
+{% block content %}
+<div class="container mb-5">
+  <h1 class="text-center">Рубрикатор</h1>
+  <hr>
+  <!-- **** PAGINATION START ***** -->
+  <!-- <nav class="mt-3">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query_string %}&{{ query_string }}{% endif %}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
+      {% for page_number in page_obj.paginator.page_range %}
+      {% if page_number == page_obj.number %}
+      <li class="page-item active"><a class="page-link" href="?page={{ page_number }}{% if query_string %}&{{ query_string }}{% endif %}">{{ page_number }}</a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_number }}{% if query_string %}&{{ query_string }}{% endif %}">{{ page_number }}</a></li>
+      {% endif%}
+      {% endfor %}
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query_string %}&{{ query_string }}{% endif %}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav> -->
+  <!-- ***** PAGINATTION ENDS ***** -->
+
+  <!-- ****** FILTER SECTION STARTS ***** -->
+
+  <div class="container-ideas">
+    <div>
+      <div class="d-flex justify-content-between mb-3">
+        <div>
+          <strong>Filters</strong>
+        </div>
+        <div class="mx-4">
+          <a href="{% url 'projects:rubricator' %}">Clear</a>
+        </div>
+      </div>
+      <div class="me-4">
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Тип контента
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample">
+              {% for content_type in content_types %}
+              <div class="accordion-body">
+                <a href="{% url 'projects:rubricator' %}?q={{ content_type.content_type }}">{{ content_type.content_type }}</a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ****** FILTER SECTION ENDS ***** -->
+
+    <!-- ***** MAIN CONTENT START ***** -->
+    <div>
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for topic in topics %}
+        <div class="col">
+          <div class="shadow bg-body rounded">
+            <div class="card h-100">
+              <div class="d-flex justify-content-between card-header pb-0">
+                <strong>{{ topic.heading }}</strong>
+                <p>{{ topic.content_type }}</p>
+              </div>
+              <div class="card-body card-idea">
+                <p class="card-text"><a href="https://{{ topic.examples }}">{{ topic.examples }}</a></p>
+                <p class="card-text"><a href="https://{{ topic.examples }}">{{ topic.examples }}</a></p>
+                <div class="d-grid gap-2">
+                  <a class="btn btn-outline-secondary btn-sm"
+                    href="{% url 'projects:update-rubricator' topic.pk %}">Редактировать</a>
+                  <a class="btn btn-outline-danger btn-sm" href="{% url 'projects:delete' topic.pk %}">Удалить</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- ***** MAIN CONTENT END ***** -->
+</div>
+{% endblock %}
