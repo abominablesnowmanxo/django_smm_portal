@@ -10,14 +10,14 @@
 <div class="container mt-3 mb-5">
   <div class="text-center">
     <a class="btn btn-outline-secondary btn-sm"
-      href="{% url 'projects:month-calendar-change' prev_date.year prev_date.month %}">
+      href="{% url 'projects:month-calendar' prev_date.year prev_date.month %}">
       Prev
     </a>
     <a class="btn btn-outline-secondary btn-sm"
-      href="{% url 'projects:month-calendar-change' next_date.year next_date.month %}">
+      href="{% url 'projects:month-calendar' next_date.year next_date.month %}">
       Next
     </a>
-    <a class="btn btn-secondary btn-sm" href="{% url 'projects:month-calendar' %}">
+    <a class="btn btn-secondary btn-sm" href="{% url 'projects:month-calendar' current_year current_month %}">
       Today
     </a>
     <a class="btn btn-outline-secondary btn-sm" href="{% url 'projects:week-calendar' %}">

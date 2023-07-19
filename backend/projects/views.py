@@ -2,7 +2,6 @@ import json
 from datetime import datetime
 from typing import Any, Dict
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse, JsonResponse
 from django.db.models.query import QuerySet
@@ -13,7 +12,6 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
-from django.utils import timezone
 
 from utils.my_calendar import MyCalendar
 from .forms import PostIdeaForm
@@ -130,32 +128,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 
 
 @login_required
-def month_calendar(request):
-    my_calendar = MyCalendar()
-    current_year = my_calendar.year
-    prev_date = my_calendar.previous_date
-    next_date = my_calendar.next_date
-    month_name = my_calendar.month_name
-    month_dates = my_calendar.month_dates
-    today = timezone.now().date
-    posts = (PostIdea.objects
-             .filter(publish_date__in=month_dates, author=request.user)
-             .select_related('project', 'format', 'is_done')
-        )
-
-    return render(request, 'projects/month_calendar.html', {
-        'current_year': current_year,
-        'month_name': month_name,
-        'prev_date': prev_date,
-        'next_date': next_date,
-        'today': today,
-        'month_dates': month_dates,
-        'posts': posts
-    })
-
-
-@login_required
-def month_calendar_change(request, year, month):
+def month_calendar(request, year, month):
     my_calendar = MyCalendar(year, month)
     current_year = my_calendar.year
     prev_date = my_calendar.previous_date
