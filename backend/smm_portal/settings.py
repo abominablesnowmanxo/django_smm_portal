@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     # Local
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
+    'mycalendar.apps.MycalendarConfig',
     'projects.apps.ProjectsConfig',
 ]
 
@@ -60,7 +61,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'core.context_processors.current_date.current_date',
+                'mycalendar.context_processors.current_date.current_date',
             ],
         },
     },
