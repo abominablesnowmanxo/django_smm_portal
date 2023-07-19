@@ -5,15 +5,13 @@ from django.core.exceptions import PermissionDenied
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse, JsonResponse
 from django.db.models.query import QuerySet
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views.generic import (
     CreateView, DeleteView, ListView, TemplateView, UpdateView
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
 
-from utils.my_calendar import MyCalendar
 from .forms import PostIdeaForm
 from .models import PostIdea, Project
 
@@ -125,60 +123,6 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         if obj.author != self.request.user:
             raise PermissionDenied()
         return obj
-
-
-@login_required
-def month_calendar(request, year, month):
-    my_calendar = MyCalendar(year, month)
-    current_year = my_calendar.year
-    prev_date = my_calendar.previous_date
-    next_date = my_calendar.next_date
-    month_name = my_calendar.month_name
-    month_dates = my_calendar.month_dates
-    today = datetime.now().date
-    posts = (PostIdea.objects
-             .filter(publish_date__in=month_dates, author=request.user)
-             .select_related('project', 'format', 'is_done')
-        )
-
-    return render(request, 'projects/month_calendar.html', {
-        'current_year': current_year,
-        'month_name': month_name,
-        'prev_date': prev_date,
-        'next_date': next_date,
-        'today': today,
-        'month_dates': month_dates,
-        'posts': posts
-    })
-
-
-@login_required
-def week_calendar(request):
-    my_calendar = MyCalendar()
-    current_year = my_calendar.year
-    prev_date = my_calendar.previous_date
-    next_date = my_calendar.next_date
-    month_name = my_calendar.month_name
-    week_dates = my_calendar.week_dates()
-    today = datetime.now().date
-    posts = (PostIdea.objects
-             .filter(publish_date__in=week_dates, author=request.user)
-             .select_related(
-                    'author', 'project', 'heading', 'content_type',
-                    'social_network', 'format', 'is_done'
-                )
-            )
-
-    return render(request, 'projects/week_calendar.html', {
-        'current_year': current_year,
-        'month_name': month_name,
-        'prev_date': prev_date,
-        'next_date': next_date,
-        'today': today,
-        'month_dates': range(0,49),
-        'week_dates': week_dates,
-        'posts': posts
-    })
 
 
 def update_post_date(request):
