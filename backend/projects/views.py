@@ -26,9 +26,11 @@ class IdeasListView(LoginRequiredMixin, ListView):
     paginate_by = 6
 
     def get_queryset(self) -> QuerySet[Any]:
-        queryset = PostIdea.objects.select_related(
-                'project','format', 'is_done'
-                ).filter(author=self.request.user)
+        queryset = (
+            PostIdea.objects
+            .select_related('project','format', 'is_done')
+            .filter(author=self.request.user)
+        )
 
         q = self.request.GET.get('q')
         if q:
