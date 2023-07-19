@@ -27,7 +27,6 @@ class HomePageView(LoginRequiredMixin, TemplateView):
 class IdeasListView(LoginRequiredMixin, ListView):
     template_name = 'projects/all_ideas.html'
     context_object_name = 'ideas'
-    paginate_by = 6
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = PostIdea.objects.select_related(
@@ -42,17 +41,14 @@ class IdeasListView(LoginRequiredMixin, ListView):
     def get_context_data(self, *args, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(*args, **kwargs)
 
-        # paginator = Paginator(context['ideas'], self.paginate_by)
-        # page_number = self.request.GET.get('page')
-        # query_params = self.request.GET.copy()
-        # if 'page' in query_params:
-        #     del query_params['page']
-        # query_string = query_params.urlencode()
+        paginator = Paginator(context['ideas'], 6)
+        # print(paginator.object_list, paginator.num_pages, flush=True)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
 
         context['projects'] = Project.objects.filter(author=self.request.user)
-        # context['query_string'] = query_string
-        # context['paginator'] = paginator
-        # context['page_obj'] = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
         return context
 
 
