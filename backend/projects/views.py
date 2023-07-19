@@ -6,9 +6,10 @@ from django.core.paginator import Paginator
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse, JsonResponse
 from django.db.models.query import QuerySet
-from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
+from django.views.generic import (
+    CreateView, DeleteView, ListView, TemplateView, UpdateView
+)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
@@ -27,16 +28,16 @@ class IdeasListView(LoginRequiredMixin, ListView):
     template_name = 'projects/all_ideas.html'
     context_object_name = 'ideas'
     paginate_by = 6
-    ordering = ('-publish_date')
 
     def get_queryset(self) -> QuerySet[Any]:
-        q = self.request.GET.get('q', '')
         queryset = PostIdea.objects.select_related(
-            'author', 'project', 'heading', 'content_type', 'social_network',
-            'format', 'is_done').filter(
-            Q(author=self.request.user) & Q(project__name__icontains=q)
-        ).order_by('-publish_date')
-        return queryset
+                'project','format', 'is_done'
+                ).filter(author=self.request.user)
+
+        q = self.request.GET.get('q')
+        if q:
+            queryset = queryset.filter(project__name__icontains=q)
+        return queryset.order_by('-publish_date')
 
     def get_context_data(self, *args, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(*args, **kwargs)
@@ -144,11 +145,8 @@ def month_calendar(request):
     today = timezone.now().date
     posts = (PostIdea.objects
              .filter(publish_date__in=month_dates, author=request.user)
-             .select_related(
-                    'author', 'project', 'heading', 'content_type',
-                    'social_network', 'format', 'is_done'
-                    )
-                )
+             .select_related('project', 'format', 'is_done')
+        )
 
     return render(request, 'projects/month_calendar.html', {
         'current_year': current_year,
@@ -172,11 +170,8 @@ def month_calendar_change(request, year, month):
     today = datetime.now().date
     posts = (PostIdea.objects
              .filter(publish_date__in=month_dates, author=request.user)
-             .select_related(
-                    'author', 'project', 'heading', 'content_type',
-                    'social_network', 'format', 'is_done'
-                )
-            )
+             .select_related('project', 'format', 'is_done')
+        )
 
     return render(request, 'projects/month_calendar.html', {
         'current_year': current_year,
@@ -198,9 +193,13 @@ def week_calendar(request):
     month_name = my_calendar.month_name
     week_dates = my_calendar.week_dates()
     today = datetime.now().date
-    posts = PostIdea.objects.filter(
-        publish_date__in=week_dates,
-        author=request.user)
+    posts = (PostIdea.objects
+             .filter(publish_date__in=week_dates, author=request.user)
+             .select_related(
+                    'author', 'project', 'heading', 'content_type',
+                    'social_network', 'format', 'is_done'
+                )
+            )
 
     return render(request, 'projects/week_calendar.html', {
         'current_year': current_year,
@@ -214,15 +213,17 @@ def week_calendar(request):
     })
 
 
-def update_event_date(request):
+def update_post_date(request):
     if request.method == 'POST':
         post_data = json.loads(request.body.decode("utf-8"))
-        event_id = post_data.get('id')
-        new_start_date = post_data.get('start')
-        new_start_date = datetime.strptime(new_start_date, '%B %d, %Y')
-        event = get_object_or_404(PostIdea, pk=event_id)
-        event.publish_date = new_start_date
-        event.save()
+        post_id = post_data.get('id')
+        post_new_publish_date = post_data.get('publishDate')
+        post_new_publish_date = datetime.strptime(
+            post_new_publish_date, '%b %d, %Y'
+        )
+        post = get_object_or_404(PostIdea, pk=post_id)
+        post.publish_date = post_new_publish_date
+        post.save()
         return JsonResponse({'status': 'success'})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})

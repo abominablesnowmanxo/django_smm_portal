@@ -38,7 +38,7 @@
       <div class="weekday">Sunday</div>
 
       {% for date in month_dates %}
-      <div data-date="{{date}}" class="col-sm cell {% if date == today %}cell-today{% endif %}">
+      <div data-date="{{date|date:'M d, Y'}}" class="col-sm cell {% if date == today %}cell-today{% endif %}">
         <div class="d-flex justify-content-between day">
           <div>
             <a href="{% url 'projects:create-idea' %}?date={{ date.year }}-{{date.month}}-{{date.day}}&next={{ request.path|urlencode }}"
@@ -50,7 +50,7 @@
         </div>
         {% for post in posts %}
         {% if post.publish_date == date %}
-        <div class="post" data-event-id="{{post.pk}}" data-original-date="{{post.publish_date}}">
+        <div class="post" data-post-id="{{post.pk}}" data-original-date="{{post.publish_date}}">
           <div class="d-flex post-time">
             <div class="post-desc me-auto">
               {{ post.theme }}

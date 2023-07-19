@@ -76,22 +76,22 @@ document.addEventListener('DOMContentLoaded', function () {
             // Make sure we have a valid date to drop onto
             if (newDate) {
                 // Assuming your post element has a data attribute 'data-event-id' containing the event ID
-                const eventId = draggedPost.getAttribute('data-event-id');
+                const postId = draggedPost.getAttribute('data-post-id');
 
                 // Make an AJAX request to update the event's date in the Django backend
-                const updatedEvent = {
-                    id: eventId,
-                    start: newDate, // Assuming the newDate format is compatible with the model field
+                const updatedPost = {
+                    id: postId,
+                    publishDate: newDate, // Assuming the newDate format is compatible with the model field
                 };
                 const csrftoken = getCookie('csrftoken');
-                
-                fetch('/update_event_date/', {
+
+                fetch('/update_post_date/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRFToken': csrftoken, // Add CSRF token if needed
                     },
-                    body: JSON.stringify(updatedEvent),
+                    body: JSON.stringify(updatedPost),
                 })
                     .then(response => response.json())
                     .then(data => {
