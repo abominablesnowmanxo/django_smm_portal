@@ -46,7 +46,7 @@
           <strong>Filters</strong>
         </div>
         <div class="mx-4">
-          <a href="{% url 'projects:rubricator' %}">Clear</a>
+          <a href="{% url 'rubricator:rubricator' %}">Clear</a>
         </div>
       </div>
       <div class="me-4">
@@ -62,7 +62,7 @@
               data-bs-parent="#accordionExample">
               {% for content_type in content_types %}
               <div class="accordion-body">
-                <a href="{% url 'projects:rubricator' %}?q={{ content_type.content_type }}">{{ content_type.content_type }}</a>
+                <a href="{% url 'rubricator:rubricator' %}?q={{ content_type.content_type }}">{{ content_type.content_type }}</a>
               </div>
               {% endfor %}
             </div>
@@ -88,8 +88,8 @@
                 <p class="card-text"><a href="https://{{ topic.examples }}">{{ topic.examples }}</a></p>
                 <div class="d-grid gap-2">
                   <a class="btn btn-outline-secondary btn-sm"
-                    href="{% url 'projects:update-rubricator' topic.pk %}">Редактировать</a>
-                  <a class="btn btn-outline-danger btn-sm" href="{% url 'projects:delete' topic.pk %}">Удалить</a>
+                    href="{% url 'rubricator:update-rubricator' topic.pk %}">Редактировать</a>
+                  <a class="btn btn-outline-danger btn-sm" href="">Удалить</a>
                 </div>
               </div>
             </div>

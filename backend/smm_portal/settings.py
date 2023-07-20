@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'mycalendar.apps.MycalendarConfig',
     'projects.apps.ProjectsConfig',
+    'rubricator.apps.RubricatorConfig',
 ]
 
 MIDDLEWARE = [

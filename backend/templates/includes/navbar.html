@@ -20,7 +20,7 @@
           <a class="nav-link" href="{% url 'projects:create-post' %}">Новая публикация</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'projects:rubricator' %}">Рубрикатор</a>
+          <a class="nav-link" href="{% url 'rubricator:rubricator' %}">Рубрикатор</a>
         </li>
       </ul>
       {% if user.is_authenticated %}

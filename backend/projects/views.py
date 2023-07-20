@@ -12,8 +12,8 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 
-from .forms import PostIdeaForm, RubricatorForm
-from .models import ContentType, PostIdea, Project, Rubricator
+from .forms import PostIdeaForm
+from .models import PostIdea, Project
 
 
 class HomePageView(LoginRequiredMixin, TemplateView):
@@ -47,44 +47,6 @@ class IdeasListView(LoginRequiredMixin, ListView):
         context['query_string'] = query_params.urlencode()
         context['projects'] = Project.objects.filter(author=self.request.user)
         return context
-
-
-class RubricatorListView(LoginRequiredMixin, ListView):
-    template_name = 'projects/rubricator.html'
-    context_object_name = 'topics'
-
-    def get_queryset(self) -> QuerySet[Any]:
-        queryset = Rubricator.objects.select_related(
-            'content_type', 'heading'
-            ).filter(author=self.request.user)
-
-        q = self.request.GET.get('q')
-        if q:
-            queryset = Rubricator.objects.filter(content_type__content_type=q)
-        return queryset
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context['content_types'] = ContentType.objects.all()
-        return context
-
-
-class RubricatorCreateView(LoginRequiredMixin, CreateView):
-    model = Rubricator
-    form_class = RubricatorForm
-    template_name = 'projects/create_rubricator.html'
-    success_url = reverse_lazy('projects:rubricator')
-
-    def form_valid(self, form: BaseModelForm) -> HttpResponse:
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-
-
-class RubricatorUpdateView(LoginRequiredMixin, UpdateView):
-    model = Rubricator
-    form_class = RubricatorForm
-    template_name = 'projects/update_rubricator.html'
-    success_url = reverse_lazy('projects:rubricator')
 
 
 class IdeaCreateView(LoginRequiredMixin, CreateView):
