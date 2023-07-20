@@ -48,6 +48,8 @@ class MyCalendar:
         today = datetime.date.today()
         current_weekday = today.weekday()  # Monday is 0 and Sunday is 6
         start_of_week = today - datetime.timedelta(days=current_weekday)
-        dates_of_week = [start_of_week + datetime.timedelta(days=i) for i in range(7)]
+        dates_of_week = [
+            start_of_week + datetime.timedelta(days=i) for i in range(7)
+        ]
         print(dates_of_week)
         return dates_of_week

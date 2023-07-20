@@ -1,6 +1,8 @@
 from django import forms
 
-from .models import ContentType, Done, Heading, Project, PostIdea, Format, SocialNetwork
+from .models import (
+    ContentType, Done, Heading, Project, PostIdea, Format, SocialNetwork
+)
 
 
 class PostIdeaForm(forms.ModelForm):
