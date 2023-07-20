@@ -1,16 +1,18 @@
-from django.contrib.auth import get_user_model
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import (
+    AuthenticationForm, UserCreationForm, UserChangeForm
+)
 
 attrs = {'class': 'form-control'}
 
+
 class CustomUserCreationForm(UserCreationForm):
-    
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields['password1'].widget.attrs.update(attrs)
         self.fields['password2'].widget.attrs.update(attrs)
-
 
     class Meta:
         model = get_user_model()
@@ -20,6 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
                 'email': forms.EmailInput(attrs=attrs),
                 'username': forms.TextInput(attrs=attrs),
             }
+
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:

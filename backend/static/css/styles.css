@@ -53,6 +53,20 @@ a {
 
 
 /* CARDS STYLES */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-header-theme {
+
+}
+
+.card-header-project {
+  /* background-color: #9aebf6;
+  padding: 5px;
+  border-radius: 10px; */
+}
 
 .card-idea {
   background-color: #74b4a8;
@@ -60,7 +74,7 @@ a {
 
 .card-idea-text {
   background-color: rgb(239, 239, 239);
-  border-radius: 30px;
+  border-radius: 15px;
   padding: 15px;
 }
 
@@ -306,7 +320,7 @@ hr {
 
 .card-rubricator-text {
   background-color: rgb(239, 239, 239);
-  border-radius: 30px;
+  border-radius: 15px;
   padding: 15px;
   /* box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 10px; */
 }
