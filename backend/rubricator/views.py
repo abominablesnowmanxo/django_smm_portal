@@ -18,9 +18,11 @@ class RubricatorListView(LoginRequiredMixin, ListView):
     context_object_name = 'topics'
 
     def get_queryset(self) -> QuerySet[Any]:
-        queryset = Rubricator.objects.select_related(
-            'content_type', 'heading'
-            ).filter(author=self.request.user)
+        queryset = (
+            Rubricator.objects
+            .select_related('content_type', 'heading')
+            .filter(author=self.request.user)
+        )
 
         q = self.request.GET.get('q')
         if q:
