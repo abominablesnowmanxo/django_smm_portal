@@ -8,6 +8,7 @@
 {% block content %}
 <div class="container mb-5">
   <h1 class="text-center">Рубрикатор</h1>
+  <p><a href="{% url 'rubricator:create' %}">Новый</a></p>
   <hr>
   <!-- **** PAGINATION START ***** -->
   <!-- <nav class="mt-3">
@@ -62,7 +63,7 @@
               data-bs-parent="#accordionExample">
               {% for content_type in content_types %}
               <div class="accordion-body">
-                <a href="{% url 'rubricator:rubricator' %}?q={{ content_type.content_type }}">{{ content_type.content_type }}</a>
+                <a href="{% url 'rubricator:rubricator' %}?q={{ content_type.content_type }}">{{content_type.content_type }}</a>
               </div>
               {% endfor %}
             </div>
@@ -83,12 +84,13 @@
                 <strong>{{ topic.heading }}</strong>
                 <p>{{ topic.content_type }}</p>
               </div>
-              <div class="card-body card-idea">
-                <p class="card-text"><a href="https://{{ topic.examples }}">{{ topic.examples }}</a></p>
-                <p class="card-text"><a href="https://{{ topic.examples }}">{{ topic.examples }}</a></p>
+              <div class="card-body card-rubricator">
+                <div class="card-rubricator-text mb-3">
+                  <p class="card-text">{{ topic.description }}</p>
+                </div>
                 <div class="d-grid gap-2">
                   <a class="btn btn-outline-secondary btn-sm"
-                    href="{% url 'rubricator:update-rubricator' topic.pk %}">Редактировать</a>
+                    href="{% url 'rubricator:update' topic.pk %}">Редактировать</a>
                   <a class="btn btn-outline-danger btn-sm" href="">Удалить</a>
                 </div>
               </div>

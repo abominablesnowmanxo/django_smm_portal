@@ -11,28 +11,25 @@
   <hr>
   <div class="shadow mb-5 bg-body rounded">
     <div class="card text-center">
-      <div class="card-body card-idea">
+      <div class="card-body card-rubricator">
         <div class="form-group">
           <form action="" method="POST">
             <div class="row g-2">
               {% csrf_token %}
-              <div class="col-md-12 mb-3 form-floating required">
+              <div class="col-md-12 mb-3">
+                <label for="id_{{form.content_type.label}}">{{form.content_type.label}}</label>
                 {{ form.content_type }}
-                <label class="control-label"
-                  for="id_{{form.content_type.label}}">{{form.content_type.label}}</label>
               </div>
-              <div class="col-md-12 mb-3 form-floating required">
+              <div class="col-md-12 mb-3">
+                <label for="id_{{form.heading.label}}">{{form.heading.label}}</label>
                 {{ form.heading }}
-                <label class="control-label"
-                  for="id_{{form.heading.label}}">{{form.heading.label}}</label>
               </div>
-              <div class="col-md-12 mb-3 form-floating required">
-                {{ form.examples }}
-                <label class="control-label"
-                  for="id_{{form.examples.label}}">{{form.examples.label}}</label>
+              <div class="col-md-12 mb-3">
+                <label for="id_{{form.description.label}}">{{form.description.label}}</label>
+                {{ form.description }}
               </div>
               <div class="d-grid gap-2 col-6 mx-auto">
-                <button class="btn btn-primary btn-lg" type="submit">Добавить</button>
+                <button class="btn btn-primary btn-lg" type="submit">Сохранить</button>
               </div>
           </form>
         </div>

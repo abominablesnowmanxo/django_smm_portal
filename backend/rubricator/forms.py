@@ -23,8 +23,8 @@ class RubricatorForm(forms.ModelForm):
 
     class Meta:
         model = Rubricator
-        fields = ['content_type', 'heading', 'examples']
+        fields = ['content_type', 'heading', 'description']
 
         widgets = {
-            'examples': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Примеры публикаций', 'rows': 16}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Описание', 'rows': 8}),
         }

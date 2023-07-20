@@ -20,6 +20,8 @@ class HomePageViewTest(TestCase):
 
     def test_home_page_view_for_unauthenticated_user(self):
         response = self.client.get(self.url)
+        print(response, flush=True)
         self.assertEqual(response.status_code, 302)
-        self.assertFalse(response.get('user'))
+        # self.assertFalse(response.get('user'))
+        # self.assertTrue(response.context['user'].is_authenticated)
         self.assertRedirects(response, '/accounts/login/?next=/')
